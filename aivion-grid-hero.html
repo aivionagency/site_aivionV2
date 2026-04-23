@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aivion — Стартовый экран</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:            #000000;
+      --accent:        #E8920A;
+      --accent-strong: #F5A822;
+      --accent-soft:   rgba(232,146,10,0.10);
+      --stroke-accent: rgba(232,146,10,0.22);
+      --text:          #ebebeb;
+      --muted:         rgba(235,235,235,0.52);
+      --muted-strong:  rgba(235,235,235,0.70);
+      --stroke:        rgba(255,255,255,0.08);
+      --radius:        24px;
+      --shadow:        0 30px 80px rgba(0,0,0,0.5);
+      --ease:          cubic-bezier(0.4,0,0.2,1);
+      --header-h:      80px;
+    }
+
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Montserrat", "Space Grotesk", sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Зерно */
+    body::after {
+      content:""; position:fixed; inset:0; pointer-events:none; z-index:200;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+      opacity:0.10; mix-blend-mode:soft-light;
+    }
+
+    /* ═══ HEADER ════════════════════════════════════════ */
+    header {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      height:var(--header-h);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 clamp(20px,5vw,64px);
+    }
+    header::before {
+      content:""; position:absolute; inset:0;
+      border-bottom:1px solid rgba(255,255,255,0);
+      transition:background .4s, border-color .4s;
+    }
+    header.scrolled::before {
+      background:rgba(0,0,0,0.72);
+      backdrop-filter:blur(20px);
+      border-color:var(--stroke);
+    }
+    .logo {
+      position:relative; z-index:1;
+      font-family:"Montserrat",sans-serif;
+      font-weight:700; font-size:20px; letter-spacing:-0.02em;
+      color:var(--text); text-decoration:none;
+    }
+    .logo span { color:var(--accent); }
+    nav {
+      position:relative; z-index:1;
+      display:flex; align-items:center; gap:4px;
+    }
+    nav a {
+      font-family:"Montserrat",sans-serif;
+      font-size:12px; font-weight:500;
+      letter-spacing:0.06em; text-transform:uppercase;
+      color:var(--muted); text-decoration:none;
+      padding:8px 14px; border-radius:999px;
+      transition:color .25s var(--ease);
+    }
+    nav a:hover { color:var(--text); }
+    .nav-cta {
+      background:var(--accent); color:#1a0800 !important; font-weight:700;
+      padding:10px 20px; border-radius:999px;
+      box-shadow:0 0 0 1px rgba(232,146,10,0.15),0 8px 24px rgba(232,146,10,0.20);
+      transition:background .25s var(--ease),transform .25s var(--ease) !important;
+    }
+    .nav-cta:hover { background:var(--accent-strong) !important; transform:translateY(-1px); }
+
+    /* ═══ OPENING SCREEN ════════════════════════════════ */
+    .opening-screen {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: var(--header-h);
+      overflow: hidden;
+      background: var(--bg);
+      /* Cursor position CSS vars, updated from JS */
+      --cx: 50%;
+      --cy: 50%;
+    }
+
+    /* ── GRID LAYER 1: dim base (всегда видна) ── */
+    .grid-base {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.055;
+    }
+    .grid-base svg { width:100%; height:100%; display:block; }
+
+    /* ── GRID LAYER 2: bright reveal (только под курсором) ── */
+    .grid-reveal {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      opacity: 0.52;
+      /* Radial gradient mask — центр под курсором, затухает к краям */
+      -webkit-mask-image: radial-gradient(320px circle at var(--cx) var(--cy), black 0%, transparent 100%);
+      mask-image:         radial-gradient(320px circle at var(--cx) var(--cy), black 0%, transparent 100%);
+      transition: -webkit-mask-image 0.05s, mask-image 0.05s;
+    }
+    .grid-reveal svg { width:100%; height:100%; display:block; }
+
+    /* ── Ambient orbs (фоновые блики) ── */
+    .orbs {
+      position: absolute; inset: 0;
+      pointer-events: none; z-index: 2;
+    }
+    .orb {
+      position: absolute; border-radius: 50%;
+      animation: orbFloat ease-in-out infinite alternate;
+    }
+    /* Правый верх — янтарный */
+    .orb-1 {
+      width: 42%; height: 42%;
+      right: -18%; top: -18%;
+      background: radial-gradient(circle, rgba(232,146,10,0.38) 0%, rgba(200,90,0,0.14) 50%, transparent 72%);
+      filter: blur(80px);
+      animation-duration: 20s;
+    }
+    /* Правее верха — тонкий gold */
+    .orb-2 {
+      width: 22%; height: 22%;
+      right: 8%; top: -8%;
+      background: radial-gradient(circle, rgba(245,168,34,0.22) 0%, transparent 68%);
+      filter: blur(60px);
+      animation-duration: 16s; animation-direction: reverse;
+    }
+    /* Левый низ — холодный синий контраст */
+    .orb-3 {
+      width: 44%; height: 44%;
+      left: -14%; bottom: -18%;
+      background: radial-gradient(circle, rgba(30,80,200,0.28) 0%, rgba(10,40,140,0.10) 50%, transparent 72%);
+      filter: blur(100px);
+      animation-duration: 26s;
+    }
+    @keyframes orbFloat {
+      0%   { transform: translate(0,0) scale(1); }
+      100% { transform: translate(2%,-3%) scale(1.06); }
+    }
+
+    /* ── Content ── */
+    .opening-inner {
+      position: relative; z-index: 10;
+      width: min(100% - 32px, 1320px);
+      margin: 0 auto;
+      min-height: calc(100svh - var(--header-h));
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      text-align: center;
+      gap: 0;
+    }
+
+    .eyebrow {
+      font-family:"Montserrat",sans-serif;
+      font-size:11px; font-weight:600;
+      letter-spacing:0.14em; text-transform:uppercase;
+      color:var(--accent); margin-bottom:20px;
+    }
+
+    .opening-title {
+      max-width: 1080px;
+      font-family:"Space Grotesk","Montserrat",sans-serif;
+      font-size: clamp(40px, 7vw, 94px);
+      font-weight: 700; letter-spacing: -0.055em; line-height: 0.95;
+      margin-bottom: 24px;
+    }
+    .title-accent {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 50%, #FFD060 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 28px rgba(232,146,10,0.40));
+    }
+
+    .opening-lead {
+      max-width: 700px; margin-bottom: 32px;
+      font-size: clamp(16px,1.8vw,21px);
+      font-weight: 400; line-height: 1.65;
+      color: var(--muted-strong);
+    }
+
+    .opening-actions {
+      display: flex; flex-wrap: wrap;
+      justify-content: center; gap: 14px;
+      margin-bottom: 36px;
+    }
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center;
+      min-height:50px; padding:0 26px; border-radius:999px;
+      font-family:"Montserrat",sans-serif; font-size:13px; font-weight:600;
+      letter-spacing:0.04em; text-decoration:none; border:1px solid transparent;
+      transition:transform .3s var(--ease),box-shadow .3s var(--ease),background .3s var(--ease);
+    }
+    .btn:hover { transform:translateY(-2px); }
+    .btn-accent {
+      background:var(--accent); color:#0f0600;
+      box-shadow:0 0 0 1px rgba(232,146,10,0.14),0 10px 28px rgba(232,146,10,0.22);
+    }
+    .btn-accent:hover { background:var(--accent-strong); }
+    .btn-ghost {
+      border-color:rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.04); color:var(--text);
+    }
+    .btn-ghost:hover { background:rgba(255,255,255,0.08); }
+
+    /* Stat cards */
+    .hero-stats {
+      width: min(100%, 960px);
+      display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px;
+    }
+    .hero-stat {
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:20px; padding:20px 22px;
+      display:grid; align-content:space-between;
+      text-align:left; position:relative; overflow:hidden;
+      min-height:104px;
+      transition:border-color .35s var(--ease),background .35s var(--ease);
+    }
+    .hero-stat::before {
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(135deg,rgba(232,146,10,0.07),transparent 55%);
+      pointer-events:none;
+    }
+    .hero-stat:hover { border-color:rgba(232,146,10,0.28); background:rgba(232,146,10,0.04); }
+    .stat-label {
+      font-family:"Montserrat",sans-serif;
+      font-size:10px; font-weight:600;
+      letter-spacing:0.14em; text-transform:uppercase; color:var(--accent);
+    }
+    .stat-value {
+      font-family:"Space Grotesk","Montserrat",sans-serif;
+      font-size:clamp(16px,1.5vw,21px); font-weight:500; line-height:1.2; color:var(--text);
+    }
+
+    /* Scroll hint */
+    .scroll-hint {
+      position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
+      display:flex; flex-direction:column; align-items:center; gap:8px;
+      z-index:10; opacity:0; animation:fadeIn 0.5s 1.2s forwards;
+    }
+    @keyframes fadeIn { to { opacity:1; } }
+    .scroll-line {
+      width:1px; height:48px;
+      background:linear-gradient(180deg,transparent,var(--accent));
+      animation:scrollPulse 2.2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%   { transform:scaleY(0); transform-origin:top; }
+      45%  { transform:scaleY(1); transform-origin:top; }
+      46%  { transform-origin:bottom; }
+      85%  { transform:scaleY(0); transform-origin:bottom; }
+      100% { transform:scaleY(0); transform-origin:top; }
+    }
+    .scroll-text {
+      font-family:"Montserrat",sans-serif;
+      font-size:9px; font-weight:600; letter-spacing:0.22em;
+      text-transform:uppercase; color:rgba(255,255,255,0.18);
+    }
+
+    /* Stagger */
+    .fade-up {
+      opacity:0; transform:translateY(22px);
+      transition:opacity .55s cubic-bezier(0.22,1,0.36,1),
+                  transform .55s cubic-bezier(0.22,1,0.36,1);
+    }
+    .fade-up.show { opacity:1; transform:translateY(0); }
+    .opening-inner .fade-up:nth-child(1) { transition-delay:0.05s; }
+    .opening-inner .fade-up:nth-child(2) { transition-delay:0.15s; }
+    .opening-inner .fade-up:nth-child(3) { transition-delay:0.25s; }
+    .opening-inner .fade-up:nth-child(4) { transition-delay:0.35s; }
+    .opening-inner .fade-up:nth-child(5) { transition-delay:0.45s; }
+
+    @media (max-width:620px) { .hero-stats { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+<header id="hdr">
+  <a class="logo" href="/">Aivion<span>.</span></a>
+  <nav>
+    <a href="#cases">Кейсы</a>
+    <a href="#services">Услуги</a>
+    <a href="#process">Процесс</a>
+    <a href="#contact" class="nav-cta">Обсудить задачу</a>
+  </nav>
+</header>
+
+<section class="opening-screen" id="welcome">
+
+  <!-- Сетка: базовый слой (всегда виден, тусклый) -->
+  <div class="grid-base" id="gridBase">
+    <svg id="svgBase">
+      <defs>
+        <pattern id="grid-base-pattern" width="44" height="44" patternUnits="userSpaceOnUse">
+          <path d="M 44 0 L 0 0 0 44" fill="none"
+            stroke="rgba(200,110,10,1)" stroke-width="0.8"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid-base-pattern)"/>
+    </svg>
+  </div>
+
+  <!-- Сетка: яркий слой (видна только под курсором через mask) -->
+  <div class="grid-reveal" id="gridReveal">
+    <svg id="svgReveal">
+      <defs>
+        <pattern id="grid-reveal-pattern" width="44" height="44" patternUnits="userSpaceOnUse">
+          <path d="M 44 0 L 0 0 0 44" fill="none"
+            stroke="rgba(232,146,10,1)" stroke-width="1.2"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid-reveal-pattern)"/>
+    </svg>
+  </div>
+
+  <!-- Орбы -->
+  <div class="orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Контент -->
+  <div class="opening-inner">
+    <p class="eyebrow fade-up">System Design · AI · Automation</p>
+
+    <h1 class="opening-title fade-up">
+      Усиливаем бизнес<br>не количеством людей,<br>
+      а <span class="title-accent">качеством систем.</span>
+    </h1>
+
+    <p class="opening-lead fade-up">
+      Проектируем AI-инструменты, автоматизацию и внутренние процессы так, чтобы команда
+      работала быстрее, точнее и спокойнее — без перегруза и хаотичного масштабирования.
+    </p>
+
+    <div class="opening-actions fade-up">
+      <a class="btn btn-accent" href="#contact">Запросить разбор</a>
+      <a class="btn btn-ghost"   href="#cases">Посмотреть кейсы</a>
+    </div>
+
+    <div class="hero-stats fade-up">
+      <article class="hero-stat">
+        <span class="stat-label">Фокус</span>
+        <span class="stat-value">AI + внутренние системы</span>
+      </article>
+      <article class="hero-stat">
+        <span class="stat-label">Подход</span>
+        <span class="stat-value">От аудита к внедрению</span>
+      </article>
+      <article class="hero-stat">
+        <span class="stat-label">Результат</span>
+        <span class="stat-value">Меньше ручной работы</span>
+      </article>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <div class="scroll-text">Scroll</div>
+  </div>
+</section>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════════════════ */
+const hdr = document.getElementById('hdr');
+window.addEventListener('scroll', () => {
+  hdr.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+/* ═══════════════════════════════════════════════════════
+   STAGGER REVEAL
+═══════════════════════════════════════════════════════ */
+document.querySelectorAll('.fade-up').forEach(el => {
+  setTimeout(() => el.classList.add('show'), 80);
+});
+
+/* ═══════════════════════════════════════════════════════
+   GRID ANIMATION
+   Принцип:
+   – Два SVG-слоя с одинаковым паттерном.
+   – Оба паттерна бесконечно сдвигаются через rAF.
+   – Нижний слой — тусклый (opacity 0.055), всегда виден.
+   – Верхний слой — яркий (opacity 0.52), замаскирован
+     radial-gradient вокруг курсора.
+   – При движении мыши обновляем CSS-переменные --cx / --cy
+     на секции, это двигает маску без перерисовки.
+═══════════════════════════════════════════════════════ */
+(function() {
+  const section  = document.getElementById('welcome');
+  const svgBase  = document.getElementById('svgBase');
+  const svgReveal= document.getElementById('svgReveal');
+  const patBase  = document.getElementById('grid-base-pattern');
+  const patReveal= document.getElementById('grid-reveal-pattern');
+
+  const CELL = 44;   // размер ячейки сетки
+  const SPX  = 0.4;  // скорость сдвига по X (px/frame)
+  const SPY  = 0.3;  // скорость сдвига по Y (px/frame)
+
+  let offX = 0, offY = 0;
+  let raf = 0;
+
+  /* Обновляем viewBox SVG при ресайзе */
+  function setSize() {
+    const w = section.offsetWidth;
+    const h = section.offsetHeight;
+    [svgBase, svgReveal].forEach(svg => {
+      svg.setAttribute('width', w);
+      svg.setAttribute('height', h);
+      svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    });
+  }
+
+  /* rAF — двигаем offset паттерна */
+  function tick() {
+    offX = (offX + SPX) % CELL;
+    offY = (offY + SPY) % CELL;
+
+    /* Сдвигаем оба паттерна синхронно */
+    patBase.setAttribute('x', offX);
+    patBase.setAttribute('y', offY);
+    patReveal.setAttribute('x', offX);
+    patReveal.setAttribute('y', offY);
+
+    raf = requestAnimationFrame(tick);
+  }
+
+  /* Курсор — обновляем CSS-переменные для маски */
+  section.addEventListener('mousemove', e => {
+    const rect = section.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+    section.style.setProperty('--cx', cx + 'px');
+    section.style.setProperty('--cy', cy + 'px');
+  }, { passive: true });
+
+  /* Если курсор ушёл — маску убираем в "безопасное" место */
+  section.addEventListener('mouseleave', () => {
+    section.style.setProperty('--cx', '-600px');
+    section.style.setProperty('--cy', '-600px');
+  });
+
+  setSize();
+  window.addEventListener('resize', setSize);
+  raf = requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
