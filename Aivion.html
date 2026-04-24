@@ -65,8 +65,7 @@
       font-family:"Playfair Display", Georgia, serif;
       font-weight:700; font-size:22px; letter-spacing:0.04em;
       text-decoration:none; font-style:italic;
-      background:linear-gradient(135deg,#ffffff 0%,rgba(245,168,34,0.92) 65%,#E8920A 100%);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      color:#ffffff;
     }
 
     nav {
@@ -134,22 +133,56 @@
       position:relative; min-height:100svh;
       display:flex; flex-direction:column; justify-content:center;
       padding-top:var(--header-h); overflow:hidden;
+      background:var(--bg);
+      --cx:50%;
+      --cy:50%;
     }
-    #heroGridCanvas {
-      position:absolute; inset:0; width:100%; height:100%;
-      pointer-events:none; z-index:0; transition:opacity 0.6s ease;
+    .grid-base {
+      position:absolute; inset:0; z-index:0; opacity:0.055;
     }
-    .opening-grain {
-      position:absolute; inset:0; pointer-events:none; z-index:1;
-      background:
-        linear-gradient(rgba(232,146,10,0.09) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(232,146,10,0.09) 1px,transparent 1px);
-      background-size:80px 80px; opacity:1;
-      -webkit-mask-image:radial-gradient(ellipse 95% 90% at 50% 45%, black 5%, rgba(0,0,0,0.45) 55%, transparent 100%);
-      mask-image:radial-gradient(ellipse 95% 90% at 50% 45%, black 5%, rgba(0,0,0,0.45) 55%, transparent 100%);
+    .grid-base svg { width:100%; height:100%; display:block; }
+    .grid-reveal {
+      position:absolute; inset:0; z-index:1; opacity:0.52;
+      -webkit-mask-image:radial-gradient(320px circle at var(--cx) var(--cy), black 0%, transparent 100%);
+      mask-image:radial-gradient(320px circle at var(--cx) var(--cy), black 0%, transparent 100%);
+      transition:-webkit-mask-image 0.05s, mask-image 0.05s;
+    }
+    .grid-reveal svg { width:100%; height:100%; display:block; }
+    .orbs {
+      position:absolute; inset:0;
+      pointer-events:none; z-index:2;
+    }
+    .orb {
+      position:absolute; border-radius:50%;
+      animation:orbFloat ease-in-out infinite alternate;
+    }
+    .orb-1 {
+      width:42%; height:42%;
+      right:-18%; top:-18%;
+      background:radial-gradient(circle, rgba(232,146,10,0.38) 0%, rgba(200,90,0,0.14) 50%, transparent 72%);
+      filter:blur(80px);
+      animation-duration:20s;
+    }
+    .orb-2 {
+      width:22%; height:22%;
+      right:8%; top:-8%;
+      background:radial-gradient(circle, rgba(245,168,34,0.22) 0%, transparent 68%);
+      filter:blur(60px);
+      animation-duration:16s; animation-direction:reverse;
+    }
+    .orb-3 {
+      width:44%; height:44%;
+      left:-14%; bottom:-18%;
+      background:radial-gradient(circle, rgba(30,80,200,0.28) 0%, rgba(10,40,140,0.10) 50%, transparent 72%);
+      filter:blur(100px);
+      animation-duration:26s;
+    }
+    @keyframes orbFloat {
+      0%   { transform:translate(0,0) scale(1); }
+      100% { transform:translate(2%,-3%) scale(1.06); }
     }
     .opening-inner {
-      position:relative; z-index:2;
+      position:relative; z-index:10;
       width:min(100% - 32px,1320px); margin:0 auto;
       min-height:calc(100svh - var(--header-h));
       display:grid; align-content:center;
@@ -161,8 +194,8 @@
       color:var(--accent); margin-bottom:20px;
     }
     .opening-title {
-      max-width:1080px; font-family:"Space Grotesk","Montserrat",sans-serif;
-      font-size:clamp(40px,7vw,94px); font-weight:700;
+      max-width:1040px; font-family:"Space Grotesk","Montserrat",sans-serif;
+      font-size:clamp(36px,6.2vw,84px); font-weight:700;
       letter-spacing:-0.055em; line-height:0.95; margin-bottom:24px;
     }
     .title-accent {
@@ -171,8 +204,8 @@
       filter:drop-shadow(0 0 28px rgba(232,146,10,0.38));
     }
     .opening-lead {
-      max-width:700px; margin-bottom:32px;
-      font-size:clamp(16px,1.8vw,21px); font-weight:400; line-height:1.65;
+      max-width:660px; margin-bottom:32px;
+      font-size:clamp(15px,1.45vw,19px); font-weight:400; line-height:1.62;
       color:var(--muted-strong);
     }
     .opening-actions {
@@ -220,30 +253,6 @@
     .stat-value {
       font-family:"Space Grotesk","Montserrat",sans-serif;
       font-size:clamp(16px,1.5vw,21px); font-weight:500; line-height:1.2; color:var(--text);
-    }
-
-    /* Scroll hint */
-    .scroll-hint {
-      position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
-      display:flex; flex-direction:column; align-items:center; gap:8px;
-      z-index:3; opacity:0; animation:fadeIn 0.5s 1.4s forwards;
-    }
-    @keyframes fadeIn { to { opacity:1; } }
-    .scroll-line {
-      width:1px; height:48px;
-      background:linear-gradient(180deg,transparent,var(--accent));
-      animation:scrollPulse 2.2s ease-in-out infinite;
-    }
-    @keyframes scrollPulse {
-      0%   { transform:scaleY(0); transform-origin:top; }
-      45%  { transform:scaleY(1); transform-origin:top; }
-      46%  { transform-origin:bottom; }
-      85%  { transform:scaleY(0); transform-origin:bottom; }
-      100% { transform:scaleY(0); transform-origin:top; }
-    }
-    .scroll-text {
-      font-family:"Montserrat",sans-serif; font-size:9px; font-weight:600;
-      letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.18);
     }
 
     /* Stagger reveal */
@@ -473,19 +482,30 @@
     }
     .process-step {
       display:grid; grid-template-columns:56px 48px 1fr; gap:0 24px;
-      align-items:start; padding:28px 16px 28px 0;
+      align-items:start; padding:30px 18px 30px 0;
       border-bottom:1px solid rgba(255,255,255,0.05);
       will-change:transform,opacity,filter;
       border-radius:16px;
       position:relative; z-index:1;
-      transition:background .35s var(--ease), padding .25s var(--ease);
+      transform-origin:50% 0%;
+      transition:background .35s var(--ease), padding .25s var(--ease), box-shadow .35s var(--ease);
       cursor:default;
+    }
+    .process-step::after {
+      content:""; position:absolute; inset:0; border-radius:inherit;
+      background:
+        linear-gradient(135deg,rgba(232,146,10,0.10),transparent 42%),
+        radial-gradient(circle at 85% 18%,rgba(245,168,34,0.16),transparent 34%);
+      opacity:0; pointer-events:none;
+      transition:opacity .35s var(--ease);
     }
     .process-step:first-child { border-top:1px solid rgba(255,255,255,0.05); }
     .process-step:hover {
       background:rgba(232,146,10,0.025);
       padding-left:16px;
+      box-shadow:0 18px 42px rgba(0,0,0,0.18);
     }
+    .process-step:hover::after { opacity:1; }
     .process-step:hover .process-step-inner-border {
       opacity:1;
     }
@@ -554,7 +574,7 @@
       background:linear-gradient(180deg,rgba(8,4,0,0.98) 0%,rgba(4,2,0,0.95) 50%,rgba(10,5,0,0.98) 100%);
     }
     .quote-break__inner {
-      display:flex; flex-direction:column; align-items:center; gap:44px;
+      display:flex; flex-direction:column; align-items:center; gap:28px;
     }
     .quote-break__text {
       font-family:"Space Grotesk","Montserrat",sans-serif;
@@ -568,11 +588,6 @@
       -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
       filter:drop-shadow(0 0 18px rgba(232,146,10,0.28));
     }
-    .quote-break__line {
-      width:1px; height:56px;
-      background:linear-gradient(180deg,transparent,rgba(232,146,10,0.40),transparent);
-    }
-
     /* ═══ FOOTER ════════════════════════════════════════════ */
     .site-footer {
       border-top:1px solid var(--stroke); padding:64px 0 36px;
@@ -763,8 +778,31 @@
 
 <!-- ═══ OPENING SCREEN ════════════════════════════════════════ -->
 <section class="opening-screen" id="welcome">
-  <canvas id="heroGridCanvas"></canvas>
-  <div class="opening-grain" aria-hidden="true"></div>
+  <div class="grid-base" id="gridBase" aria-hidden="true">
+    <svg id="svgBase">
+      <defs>
+        <pattern id="grid-base-pattern" width="44" height="44" patternUnits="userSpaceOnUse">
+          <path d="M 44 0 L 0 0 0 44" fill="none" stroke="rgba(200,110,10,1)" stroke-width="0.8"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid-base-pattern)"/>
+    </svg>
+  </div>
+  <div class="grid-reveal" id="gridReveal" aria-hidden="true">
+    <svg id="svgReveal">
+      <defs>
+        <pattern id="grid-reveal-pattern" width="44" height="44" patternUnits="userSpaceOnUse">
+          <path d="M 44 0 L 0 0 0 44" fill="none" stroke="rgba(232,146,10,1)" stroke-width="1.2"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid-reveal-pattern)"/>
+    </svg>
+  </div>
+  <div class="orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
   <div class="opening-inner">
     <p class="eyebrow fade-up">System Design · AI · Automation</p>
     <h1 class="opening-title fade-up">
@@ -777,7 +815,7 @@
     </p>
     <div class="opening-actions fade-up">
       <a class="btn btn-accent" href="#contact" data-open-form>Запросить разбор</a>
-      <a class="btn btn-ghost" href="#cases">Посмотреть кейсы</a>
+      <a class="btn btn-ghost" href="#portfolio">Посмотреть кейсы</a>
     </div>
     <div class="hero-stats fade-up">
       <article class="hero-stat">
@@ -793,10 +831,6 @@
         <span class="stat-value">Меньше ручной работы</span>
       </article>
     </div>
-  </div>
-  <div class="scroll-hint">
-    <div class="scroll-line"></div>
-    <div class="scroll-text">Scroll</div>
   </div>
 </section>
 
@@ -887,7 +921,7 @@
           <li>подготовка заказов к дальнейшей обработке</li>
           <li>снижение нагрузки на операторский контур</li>
         </ul>
-        <a class="portfolio-card__link" href="https://telegra.ph/Kejs-Razrabotka-AI-mikroservisa-dlya-avtomaticheskogo-razbora-zakazov-iz-telefonnyh-zvonkov-02-19" target="_blank" rel="noopener noreferrer">Открыть кейс</a>
+        <a class="portfolio-card__link" href="call-center-case.html">Открыть кейс</a>
       </article>
 
       <article class="portfolio-card glass-card">
@@ -902,7 +936,7 @@
           <li>ролевой доступ и контроль процессов</li>
           <li>резервное копирование и стабильность данных</li>
         </ul>
-        <a class="portfolio-card__link" href="https://telegra.ph/Kejs-Razrabotka-korporativnoj-sistemy-upravleniya-proektami-i-rezervnym-kopirovaniem-PBMS-02-19" target="_blank" rel="noopener noreferrer">Открыть кейс</a>
+        <a class="portfolio-card__link" href="pbms-case.html">Открыть кейс</a>
       </article>
 
       <article class="portfolio-card glass-card">
@@ -917,7 +951,7 @@
           <li>локальный цикл разработки и отладки</li>
           <li>повышение качества LLM-сценариев</li>
         </ul>
-        <a class="portfolio-card__link" href="https://telegra.ph/Kejs-Razrabotka-sredy-dlya-paketnogo-testirovaniya-i-otladki-promptov-lokalnyh-LLM-02-19" target="_blank" rel="noopener noreferrer">Открыть кейс</a>
+        <a class="portfolio-card__link" href="promptlab-case.html">Открыть кейс</a>
       </article>
 
       <article class="portfolio-card glass-card">
@@ -932,7 +966,7 @@
           <li>генерация и сборка постов</li>
           <li>мультиагентный подход к контенту</li>
         </ul>
-        <a class="portfolio-card__link" href="https://telegra.ph/Kejs-Razrabotka-multiagentnoj-sistemy-dlya-avtomatizacii-SMM-v-Telegram-02-19" target="_blank" rel="noopener noreferrer">Открыть кейс</a>
+        <a class="portfolio-card__link" href="smm-case.html">Открыть кейс</a>
       </article>
 
       <article class="portfolio-card glass-card">
@@ -947,7 +981,7 @@
           <li>связка дизайна и разработки</li>
           <li>снижение ручной рутины в продуктовой команде</li>
         </ul>
-        <a class="portfolio-card__link" href="https://telegra.ph/Kejs-Razrabotka-AI-assistenta-dlya-avtomaticheskoj-generacii-dizajn-specifikacij-LLM-Progger-02-19" target="_blank" rel="noopener noreferrer">Открыть кейс</a>
+        <a class="portfolio-card__link" href="tz-generator-case.html">Открыть кейс</a>
       </article>
 
     </div>
@@ -1061,13 +1095,11 @@
 <!-- ═══ QUOTE BREAK ════════════════════════════════════════════ -->
 <section class="quote-break">
   <div class="section-inner quote-break__inner">
-    <div class="quote-break__line"></div>
     <p class="quote-break__text reveal">
       Хороших людей не становится больше.<br>
       <em>Но то, что они успевают —<br>можно увеличить.</em>
     </p>
     <a class="btn btn-accent reveal" href="#contact" data-open-form>Обсудить задачу</a>
-    <div class="quote-break__line"></div>
   </div>
 </section>
 
@@ -1078,7 +1110,6 @@
       <div class="footer-brand">
         <a class="logo footer-logo" href="#">Aivion</a>
         <p class="footer-tagline">AI-системы, автоматизация и внутренние цифровые контуры — для команд, которые хотят работать умнее.</p>
-        <a class="btn btn-accent footer-cta" href="#contact" data-open-form>Обсудить проект</a>
       </div>
       <div class="footer-nav-group">
         <div class="footer-col">
@@ -1093,11 +1124,11 @@
         <div class="footer-col">
           <p class="footer-col-title">Кейсы</p>
           <div class="footer-links">
-            <a href="https://telegra.ph/Kejs-Razrabotka-AI-mikroservisa-dlya-avtomaticheskogo-razbora-zakazov-iz-telefonnyh-zvonkov-02-19" target="_blank" rel="noopener noreferrer">AI разбор звонков</a>
-            <a href="https://telegra.ph/Kejs-Razrabotka-korporativnoj-sistemy-upravleniya-proektami-i-rezervnym-kopirovaniem-PBMS-02-19" target="_blank" rel="noopener noreferrer">Корпоративная система PBMS</a>
-            <a href="https://telegra.ph/Kejs-Razrabotka-sredy-dlya-paketnogo-testirovaniya-i-otladki-promptov-lokalnyh-LLM-02-19" target="_blank" rel="noopener noreferrer">LLM тестирование промптов</a>
-            <a href="https://telegra.ph/Kejs-Razrabotka-multiagentnoj-sistemy-dlya-avtomatizacii-SMM-v-Telegram-02-19" target="_blank" rel="noopener noreferrer">SMM автоматизация Telegram</a>
-            <a href="https://telegra.ph/Kejs-Razrabotka-AI-assistenta-dlya-avtomaticheskoj-generacii-dizajn-specifikacij-LLM-Progger-02-19" target="_blank" rel="noopener noreferrer">AI дизайн-спецификации</a>
+            <a href="call-center-case.html">AI разбор звонков</a>
+            <a href="pbms-case.html">Корпоративная система PBMS</a>
+            <a href="promptlab-case.html">LLM тестирование промптов</a>
+            <a href="smm-case.html">SMM автоматизация Telegram</a>
+            <a href="tz-generator-case.html">AI дизайн-спецификации</a>
           </div>
         </div>
       </div>
@@ -1200,6 +1231,7 @@
   </div>
 </div>
 
+<script src="site-content.js"></script>
 <script>
 /* ═══ HEADER SCROLL ════════════════════════════════════════ */
 const hdr = document.getElementById('hdr');
@@ -1225,90 +1257,56 @@ function toggleMenu(force) {
 menuToggle.addEventListener('click', () => toggleMenu());
 mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
 
-/* ═══ GRID CANVAS HERO ══════════════════════════════════════ */
+/* ═══ GRID HERO ═════════════════════════════════════════════ */
 (function() {
-  const canvas = document.getElementById('heroGridCanvas');
-  if(!canvas) return;
-  const ctx = canvas.getContext('2d');
   const section = document.getElementById('welcome');
-  let W = 0, H = 0, nodes = [], t0 = null;
-  const CELL = 80;
+  const svgBase = document.getElementById('svgBase');
+  const svgReveal = document.getElementById('svgReveal');
+  const patBase = document.getElementById('grid-base-pattern');
+  const patReveal = document.getElementById('grid-reveal-pattern');
 
-  function resize() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    W = section.offsetWidth; H = section.offsetHeight;
-    canvas.width = W * dpr; canvas.height = H * dpr;
-    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    buildNodes();
-  }
+  if(!section || !svgBase || !svgReveal || !patBase || !patReveal) return;
 
-  function buildNodes() {
-    nodes = [];
-    const cols = Math.ceil(W / CELL) + 1;
-    const rows = Math.ceil(H / CELL) + 1;
-    for(let c = 0; c <= cols; c++) {
-      for(let r = 0; r <= rows; r++) {
-        nodes.push({
-          x: c * CELL, y: r * CELL,
-          phase: Math.random() * Math.PI * 2,
-          freq: 0.3 + Math.random() * 0.9,
-          bright: Math.random() < 0.12
-        });
-      }
-    }
-  }
+  const CELL = 44;
+  const SPX = 0.4;
+  const SPY = 0.3;
+  let offX = 0;
+  let offY = 0;
 
-  function updateOpacity() {
-    const scrollY = window.scrollY, sH = section.offsetHeight;
-    const fs = sH * 0.30, fe = sH * 0.72;
-    const op = scrollY <= fs ? 1 : scrollY >= fe ? 0 : 1 - (scrollY - fs) / (fe - fs);
-    canvas.style.opacity = op.toFixed(3);
-  }
-  window.addEventListener('scroll', updateOpacity, { passive: true });
-
-  function frame(ts) {
-    if(!t0) t0 = ts;
-    const t = (ts - t0) * 0.001;
-    ctx.clearRect(0, 0, W, H);
-
-    /* Subtle horizontal scan glow */
-    const scanY = ((t * 0.09) % 1) * H;
-    const sg = ctx.createLinearGradient(0, scanY - 70, 0, scanY + 70);
-    sg.addColorStop(0, 'rgba(232,146,10,0)');
-    sg.addColorStop(0.5, 'rgba(232,146,10,0.025)');
-    sg.addColorStop(1, 'rgba(232,146,10,0)');
-    ctx.fillStyle = sg;
-    ctx.fillRect(0, scanY - 70, W, 140);
-
-    /* Glowing nodes at grid intersections */
-    nodes.forEach(nd => {
-      const dcx = (nd.x - W * 0.5) / (W * 0.55);
-      const dcy = (nd.y - H * 0.44) / (H * 0.52);
-      const dist = Math.sqrt(dcx * dcx + dcy * dcy);
-      const cb = Math.max(0, 1 - dist * 1.35);
-      const pulse = (Math.sin(t * nd.freq + nd.phase) + 1) * 0.5;
-      const alpha = cb * (pulse * 0.48 + 0.10) + (nd.bright ? pulse * 0.22 : 0);
-      if(alpha < 0.018) return;
-      const r = 0.9 + pulse * 1.4 + cb * 1.8 + (nd.bright ? 1.0 : 0);
-      ctx.beginPath();
-      ctx.arc(nd.x, nd.y, r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(232,146,10,${Math.min(alpha, 0.88).toFixed(3)})`;
-      if(cb > 0.25 || nd.bright) {
-        ctx.shadowColor = 'rgba(232,146,10,0.95)';
-        ctx.shadowBlur = 5 + cb * 14 + (nd.bright ? 8 : 0);
-      } else {
-        ctx.shadowBlur = 0;
-      }
-      ctx.fill();
-      ctx.shadowBlur = 0;
+  function setSize() {
+    const width = section.offsetWidth;
+    const height = section.offsetHeight;
+    [svgBase, svgReveal].forEach(svg => {
+      svg.setAttribute('width', String(width));
+      svg.setAttribute('height', String(height));
+      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
     });
-
-    requestAnimationFrame(frame);
   }
 
-  resize(); requestAnimationFrame(frame);
-  window.addEventListener('resize', resize);
+  function tick() {
+    offX = (offX + SPX) % CELL;
+    offY = (offY + SPY) % CELL;
+    patBase.setAttribute('x', String(offX));
+    patBase.setAttribute('y', String(offY));
+    patReveal.setAttribute('x', String(offX));
+    patReveal.setAttribute('y', String(offY));
+    requestAnimationFrame(tick);
+  }
+
+  section.addEventListener('mousemove', event => {
+    const rect = section.getBoundingClientRect();
+    section.style.setProperty('--cx', `${event.clientX - rect.left}px`);
+    section.style.setProperty('--cy', `${event.clientY - rect.top}px`);
+  }, { passive:true });
+
+  section.addEventListener('mouseleave', () => {
+    section.style.setProperty('--cx', '-600px');
+    section.style.setProperty('--cy', '-600px');
+  });
+
+  setSize();
+  window.addEventListener('resize', setSize);
+  requestAnimationFrame(tick);
 })();
 
 /* ═══ HERO PANELS ══════════════════════════════════════════ */
@@ -1492,12 +1490,17 @@ createDotGrid(document.getElementById('servicesDotGrid'));
     if(processSteps.length){
       const processSection=document.getElementById('process');
       const rect=processSection.getBoundingClientRect(),vh=Math.max(window.innerHeight,1);
-      const bp=clamp((vh-rect.top)/(vh+rect.height*0.16),0,1);
+      const bp=clamp((vh-rect.top)/(vh+rect.height*0.12),0,1);
       processSteps.forEach((step,i)=>{
-        const lp=clamp((bp-i*0.085)/0.42,0,1),e=ease(lp);
-        step.style.opacity=(0.08+e*0.92).toFixed(3);
-        step.style.transform=`translate3d(${((1-e)*240).toFixed(2)}px,${((1-e)*24).toFixed(2)}px,0) scale(${(0.92+e*0.08).toFixed(4)})`;
-        step.style.filter=`blur(${((1-e)*14).toFixed(2)}px)`;
+        const lp=clamp((bp-i*0.11)/0.34,0,1),e=ease(lp);
+        const direction=i%2===0?-1:1;
+        const shiftX=(1-e)*direction*56;
+        const shiftY=(1-e)*62;
+        const rotateY=(1-e)*direction*12;
+        const rotateX=(1-e)*16;
+        step.style.opacity=(0.14+e*0.86).toFixed(3);
+        step.style.transform=`perspective(1400px) translate3d(${shiftX.toFixed(2)}px,${shiftY.toFixed(2)}px,0) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale(${(0.94+e*0.06).toFixed(4)})`;
+        step.style.filter=`blur(${((1-e)*10).toFixed(2)}px) saturate(${(0.72+e*0.28).toFixed(3)})`;
       });
     }
   }
@@ -1606,22 +1609,23 @@ createDotGrid(document.getElementById('servicesDotGrid'));
     });
     form.addEventListener('submit',async e=>{
       e.preventDefault();
-      if(!form.reportValidity()){formStatus.textContent='Проверьте обязательные поля.';formStatus.className='form-status is-error';return;}
-      submitBtn.disabled=true;submitBtn.textContent='Отправляем...';
+      const formMessages=window.formMessages||{};
+      if(!form.reportValidity()){formStatus.textContent=formMessages.required||'Проверьте обязательные поля.';formStatus.className='form-status is-error';return;}
+      submitBtn.disabled=true;submitBtn.textContent=formMessages.submitting||'Отправляем...';
       formStatus.textContent='';formStatus.className='form-status';
       try {
         const data=new FormData(form);
         const payload={firstName:String(data.get('firstName')||'').trim(),company:String(data.get('company')||'').trim(),contact:String(data.get('contact')||'').trim(),contactMethod:String(data.get('contactMethod')||'').trim(),role:String(data.get('role')||'').trim(),customRole:String(data.get('customRole')||'').trim(),details:String(data.get('details')||'').trim(),policyAccepted:data.get('policyAccepted')==='yes',consentAccepted:data.get('consentAccepted')==='yes',website:String(data.get('website')||'').trim()};
         const res=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
         const result=await res.json();
-        if(!res.ok||!result.ok)throw new Error(result.message||'Ошибка отправки.');
+        if(!res.ok||!result.ok)throw new Error(result.message||(formMessages.sendError||'Ошибка отправки.'));
         form.reset();syncRoleField();
-        formStatus.textContent='Запрос отправлен. Скоро свяжемся с вами.';formStatus.className='form-status is-success';
+        formStatus.textContent=formMessages.success||'Запрос отправлен. Скоро свяжемся с вами.';formStatus.className='form-status is-success';
         setTimeout(()=>toggleForm(false),900);
       } catch(err){
-        formStatus.textContent=err.message||'Не удалось отправить запрос. Попробуйте снова.';formStatus.className='form-status is-error';
+        formStatus.textContent=err.message||(formMessages.error||'Не удалось отправить запрос. Попробуйте снова.');formStatus.className='form-status is-error';
       } finally {
-        submitBtn.disabled=false;submitBtn.textContent='Отправить запрос';
+        submitBtn.disabled=false;submitBtn.textContent=formMessages.submit||'Отправить запрос';
       }
     });
     syncRoleField();

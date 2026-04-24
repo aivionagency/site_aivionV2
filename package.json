@@ -1,9 +1,8 @@
 {
-  "name": "aivion-landing",
-  "version": "1.0.0",
+  "name": "site-aivion-v2",
   "private": true,
-  "description": "Одностраничный сайт Aivion с формой заявки и отправкой в Telegram.",
+  "version": "1.0.0",
   "scripts": {
-    "start": "node server.js"
+    "dev": "bun run server.js"
   }
 }

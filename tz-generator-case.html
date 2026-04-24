@@ -1,0 +1,563 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI-ассистент генерации ТЗ · Aivion</title>
+  <meta name="description" content="Кейс о том, как AI-ассистент генерации ТЗ ускорил подготовку дизайн-спецификаций для FinTech и SaaS: стандартизировал документацию и сократил рутину команды"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:#000;
+      --surface:#2C2C2C;
+      --accent:#E8920A;
+      --accent-rgb:232,146,10;
+      --accent-soft:rgba(var(--accent-rgb),0.14);
+      --accent-glow:rgba(var(--accent-rgb),0.32);
+      --text:#fff;
+      --muted:#6B7280;
+      --stroke:rgba(255,255,255,0.18);
+      --stroke-accent:rgba(var(--accent-rgb),0.45);
+      --section-line:rgba(var(--accent-rgb),0.11);
+      --radius:18px;
+      --content-w:1180px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:"Montserrat",sans-serif;font-size:17px;line-height:1.9;letter-spacing:.01em;overflow-x:hidden}
+    body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:150;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");opacity:.09;mix-blend-mode:soft-light}
+    .page-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;--cx:50%;--cy:50%;background:#000}
+    .grid-base,.grid-reveal{position:absolute;inset:0}
+    .grid-base{z-index:1;opacity:0}
+    .grid-reveal{z-index:2;opacity:.4;-webkit-mask-image:radial-gradient(300px circle at var(--cx) var(--cy),black 0%,transparent 100%);mask-image:radial-gradient(300px circle at var(--cx) var(--cy),black 0%,transparent 100%)}
+    .grid-base svg,.grid-reveal svg{width:100%;height:100%;display:block}
+    .bg-orbs{position:absolute;inset:0;z-index:0}
+    .bg-orb{position:absolute;border-radius:50%;filter:blur(90px);animation:orbFloat ease-in-out infinite alternate}
+    .bg-orb--gold{width:22%;height:22%;right:-13%;top:-16%;background:radial-gradient(circle,rgba(255,215,0,.03) 0%,rgba(255,175,40,.01) 48%,transparent 70%);animation-duration:20s}
+    .bg-orb--amber{width:20%;height:20%;left:-10%;bottom:-15%;background:radial-gradient(circle,rgba(255,170,0,.025) 0%,rgba(245,128,20,.01) 50%,transparent 70%);animation-duration:24s;animation-direction:reverse}
+    .bg-orb--sun{width:12%;height:12%;right:12%;top:-5%;background:radial-gradient(circle,rgba(255,224,120,.015) 0%,transparent 68%);filter:blur(55px);animation-duration:15s}
+    .light-source{position:absolute;pointer-events:none;z-index:3;mix-blend-mode:screen;border-radius:50%;animation:orbFloat ease-in-out infinite alternate}
+    .light-source--top-right{
+      width:42%;
+      height:42%;
+      right:-18%;
+      top:-18%;
+      background:radial-gradient(circle, rgba(232,146,10,0.38) 0%, rgba(200,90,0,0.14) 50%, transparent 72%);
+      filter:blur(80px);
+      animation-duration:20s;
+    }
+    .light-source--hero-focus{
+      width:44%;
+      height:44%;
+      left:-14%;
+      bottom:-18%;
+      background:radial-gradient(circle, rgba(30,80,200,0.28) 0%, rgba(10,40,140,0.10) 50%, transparent 72%);
+      filter:blur(100px);
+      animation-duration:26s;
+    }
+    @keyframes orbFloat{0%{transform:translate(0,0) scale(1)}100%{transform:translate(2%,-3%) scale(1.06)}}
+    .page-grid{display:none}
+ 
+
+    header{position:fixed;top:0;left:0;right:0;z-index:100;padding:15px clamp(16px,4vw,48px);transition:border-color .35s,background .35s}
+    header.scrolled{background:rgba(0,0,0,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--stroke)}
+    .header-top{display:flex;align-items:center;justify-content:space-between;gap:24px;max-width:1200px;margin:0 auto}
+    .header-logo{font-family:"Playfair Display", Georgia, serif;font-weight:700;font-size:22px;letter-spacing:.04em;font-style:italic;color:#fff;text-decoration:none;flex-shrink:0}
+
+    @media (max-width:900px){
+      body::after{opacity:.02}
+      .page-bg{background:#020202}
+      .grid-base,.grid-reveal{display:none}
+      .bg-orb{animation:none;filter:blur(70px)}
+      .bg-orb--gold,.bg-orb--amber,.bg-orb--sun{opacity:.25}
+      .light-source--top-right{right:-26%;top:-24%;width:76%;height:76%;opacity:.72}
+      .light-source--hero-focus{left:-24%;bottom:-24%;width:82%;height:82%;filter:blur(86px);opacity:.74}
+      .hero-results{grid-template-columns:1fr}
+      .header-nav{display:none}
+      header .cases-menu{display:none}
+      .nav-toggle{display:grid;place-items:center}
+      .case-hero{padding-top:145px}
+      .hero-top-actions .cases-menu{display:inline-block}
+      .roadmap-vertical{gap:22px}
+      .roadmap-vertical::before{left:18px;transform:none}
+      .roadmap-item{grid-template-columns:36px 1fr;min-height:auto;align-items:flex-start;gap:14px}
+      .roadmap-content{max-width:none}
+      .roadmap-item.left .roadmap-content,
+      .roadmap-item.right .roadmap-content{grid-column:2;justify-self:start;text-align:left;padding:0}
+      .roadmap-marker{grid-column:1;justify-self:center;width:24px;height:24px;box-shadow:0 0 0 5px rgba(var(--accent-rgb),.08);margin-top:4px}
+      .architecture-system{min-height:auto}
+      .architecture-road{display:none}
+      .architecture-agents{grid-template-columns:1fr}
+      .mode-grid,.solution-pillars{grid-template-columns:1fr}
+      .agent-node{width:100%}
+    }
+    @media (max-width:640px){
+      .modal-card{padding:24px 18px 20px}
+      .modal-title{font-size:32px}
+      .modal-field{font-size:26px}
+      .modal-select-btn{font-size:26px}
+      .modal-select-options button{font-size:22px}
+      .modal-submit{font-size:15px;padding:14px 10px}
+      .architecture-system{min-height:auto}
+      .architecture-road{display:none}
+      .architecture-agents{position:relative;display:grid;grid-template-columns:1fr;gap:14px}
+      .agent-node{position:relative;width:100%;left:auto;right:auto;top:auto;bottom:auto;margin:0;opacity:1;transform:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="page-bg" id="pageBg" aria-hidden="true">
+    <div class="light-source light-source--top-right"></div>
+    <div class="light-source light-source--hero-focus"></div>
+    <div class="bg-orbs">
+      <div class="bg-orb bg-orb--gold"></div>
+      <div class="bg-orb bg-orb--amber"></div>
+      <div class="bg-orb bg-orb--sun"></div>
+    </div>
+
+    <div class="grid-base">
+      <svg id="svgBase">
+        <defs>
+          <pattern id="grid-base-pattern" width="44" height="44" patternUnits="userSpaceOnUse">
+            <path d="M 44 0 L 0 0 0 44" fill="none" stroke="rgba(255,190,70,0.25)" stroke-width="0.82"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid-base-pattern)"/>
+      </svg>
+    </div>
+
+    <div class="grid-reveal">
+      <svg id="svgReveal">
+        <defs>
+          <pattern id="grid-reveal-pattern" width="44" height="44" patternUnits="userSpaceOnUse">
+            <path d="M 44 0 L 0 0 0 44" fill="none" stroke="rgba(255,215,80,1)" stroke-width="1.1"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid-reveal-pattern)"/>
+      </svg>
+    </div>
+  </div>
+  <div class="page-grid" aria-hidden="true"></div>
+
+  <header id="hdr">
+    <div class="header-top">
+      <a class="header-logo" href="Aivion.html">Aivion</a>
+
+      <nav class="header-nav" aria-label="Навигация по кейсу">
+        <a class="nav-link" href="#problem">Проблема</a>
+        <a class="nav-link" href="#solution">Решение</a>
+        <a class="nav-link" href="#example">Пример</a>
+        <a class="nav-link" href="#stack">Стек</a>
+      </nav>
+
+
+      <button class="nav-toggle" id="mobileNavToggle" aria-label="Открыть меню">☰</button>
+      <nav class="mobile-nav" id="mobileNav" aria-label="Мобильная навигация">
+        <a class="nav-link" href="#problem">Проблема</a>
+        <a class="nav-link" href="#solution">Решение</a>
+        <a class="nav-link" href="#example">Пример</a>
+        <a class="nav-link" href="#stack">Стек</a>
+        <div class="mobile-cases" aria-label="Список кейсов">
+          <span class="mobile-cases-title">Другие кейсы</span>
+          <a class="cases-item" href="smm-case.html">Мультиагентная система SMM</a>
+          <a class="cases-item" href="#">AI-ассистент генерации ТЗ</a>
+          <a class="cases-item" href="promptlab-case.html">PromptLab</a>
+          <a class="cases-item" href="tz-generator-case.html">Составитель ТЗ</a>
+          <a class="cases-item" href="pbms-case.html">Корпоративная PBMS система</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <div class="case-hero warm-section">
+    <div class="hero-top-actions">
+      <a class="cases-btn" href="Aivion.html#portfolio">← Другие кейсы</a>
+    </div>
+    <h1 class="case-title reveal">AI-ассистент <br> генерации <span class="hi">ТЗ</span></h1>
+    <p class="case-lead reveal">К нам обратилась студия продуктового дизайна (NDA), которая делает сложные интерфейсы для FinTech и SaaS. Команда регулярно получала запросы в стиле «сделайте как Apple, но для трейдинга», и перевод таких формулировок в точные спецификации занимал <span class="accent-white">слишком много ручной работы</span> и времени</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <article class="case-body warm-section">
+    <div class="section-heading reveal" id="problem"><h2>Проблема</h2></div>
+    <p class="reveal">После брифа менеджеры и дизайнеры вручную декомпозировали запрос клиента, затем собирали ТЗ в свободной форме. До 30% времени предпроектной фазы уходило на рутину: формулировки, уточнения, синхронизации и правки.</p>
+    <p class="reveal">Качество документации зависело от конкретного исполнителя: каждый писал по-своему, а описания анимаций и визуальных эффектов оставались субъективными. На стыке дизайна и разработки это вызывало разночтения и дополнительные итерации.</p>
+    <p class="reveal"><span class="problem-accent">Вывод:</span> студии нужен был инструмент, который превращает абстрактный клиентский запрос в стандартизированное, технически точное ТЗ за минуты, а не за два рабочих дня.</p>
+
+    <div class="block-sep"></div>
+
+    <div class="section-heading reveal" id="solution"><h2>Решение</h2></div>
+    <div class="solution-intro reveal">
+      <p>Мы разработали веб-приложение на Flask с многоагентной архитектурой на базе Google Gemini (gemma-3-27b-it), которое автоматически формирует структурированные дизайн-спецификации в JSON.</p>
+      <p>Вместо длинной ручной подготовки команда получила предсказуемый конвейер: от декомпозиции запроса до аудита готового ТЗ и итеративной доработки без потери контекста.</p>
+    </div>
+
+    <article class="solution-main-card reveal">
+      <h3>Решение объединяет логику, контроль качества и масштабирование</h3>
+      <p>Мы собрали бизнес-логику, ключевые особенности и дополнительные компоненты в три продуктовые карточки, чтобы команда работала по единому стандарту в каждом проекте.</p>
+      <div class="solution-pillars">
+        <article class="pillar-card"><h4>Декомпозиция клиентского запроса</h4><p>Система превращает абстрактные формулировки в конкретные сущности, цели и UX-паттерны. Это убирает размытость на старте и сокращает число уточняющих циклов с заказчиком.</p></article>
+        <article class="pillar-card"><h4>Генерация стандартизированного JSON-ТЗ</h4><p>Выходной документ содержит точные параметры интерфейса, включая анимации (stiffness, damping), структуру дизайн-системы и технические ограничения. Результат сразу совместим с рабочими инструментами команды.</p></article>
+        <article class="pillar-card"><h4>Самовалидация и итеративный аудит</h4><p>Встроенный аудитор проверяет полноту спецификации, корректность JSON и соответствие требованиям. При несоответствиях запускается автоматическая доработка без ручного перезапуска процесса.</p></article>
+      </div>
+    </article>
+
+    <section class="architecture-system reveal" aria-label="Агентная архитектура решения">
+      <div class="architecture-agents">
+        <article class="agent-node agent-node--tl"><h4>Principal Product Analyst</h4><p>Разбирает исходный запрос клиента, формирует структуру требований, сценарии использования и UX-приоритеты для следующего слоя.</p></article>
+        <article class="agent-node agent-node--tr"><h4>Principal Product Designer</h4><p>Преобразует аналитическую структуру в детализированное JSON-ТЗ: компоненты интерфейса, состояния, анимации и правила визуальной системы.</p></article>
+        <article class="agent-node agent-node--bl"><h4>Design Auditor</h4><p>Проверяет спецификацию на полноту и качество, даёт обратную связь и инициирует повторные итерации до прохождения требований.</p></article>
+        <article class="agent-node agent-node--br"><h4>Template &amp; Style Curator</h4><p>Подключает библиотеку проверенных стилевых шаблонов (Data-First Futurism, Glassmorphism Elegance, Apple Minimalist) для быстрого создания альтернативных концепций.</p></article>
+      </div>
+    </section>
+
+    <div class="block-sep"></div>
+    
+    
+    <section class="how-system-layout" aria-label="Как работает система">
+      <div class="roadmap-copy">
+        <div class="section-heading reveal" id="example"><h2>Как работает система</h2></div>
+        <p class="reveal visible">После получения брифа система проходит несколько этапов: анализ запроса, проектирование структуры спецификации, генерация JSON и автоматический аудит. Благодаря этому документация формируется в едином стандарте независимо от исполнителя.</p>
+      </div>
+
+      <div class="roadmap-vertical reveal" aria-label="Roadmap генерации дизайн-спецификации">
+        <article class="roadmap-item left">
+          <div class="roadmap-content">
+            <h4>Сбор и декомпозиция входных данных</h4>
+            <p>Система выделяет из запроса цели продукта, ограничения, целевые сценарии и ожидания по стилю интерфейса.</p>
+          </div>
+          <span class="roadmap-marker"></span>
+        </article>
+        <article class="roadmap-item right">
+          <span class="roadmap-marker"></span>
+          <div class="roadmap-content">
+            <h4>Генерация базовой структуры ТЗ</h4>
+            <p>Агент-аналитик передаёт структурированный контекст дизайнерскому агенту, который формирует каркас спецификации для интерфейса.</p>
+          </div>
+        </article>
+        <article class="roadmap-item left">
+          <div class="roadmap-content">
+            <h4>Детализация UI и анимаций</h4>
+            <p>Спецификация дополняется компонентами дизайн-системы, состояниями и параметрами motion-дизайна с точными техническими значениями.</p>
+          </div>
+          <span class="roadmap-marker"></span>
+        </article>
+        <article class="roadmap-item right">
+          <span class="roadmap-marker"></span>
+          <div class="roadmap-content">
+            <h4>Автоматическая проверка и правки</h4>
+            <p>Design Auditor оценивает полноту, валидность JSON и соответствие требованиям; при необходимости запускает повторные итерации.</p>
+          </div>
+        </article>
+        <article class="roadmap-item left">
+          <div class="roadmap-content">
+            <h4>Экспорт и интеграция в процесс</h4>
+            <p>Готовый JSON передаётся в рабочие инструменты команды, а также используется для быстрого сравнения альтернативных концепций в разных стилях.</p>
+          </div>
+          <span class="roadmap-marker"></span>
+        </article>
+      </div>
+    </section>
+
+    <div class="block-sep"></div>
+
+    <div class="section-heading reveal" id="results"><h2>Результаты</h2></div>
+    <div class="hero-results reveal" aria-label="Ключевые результаты">
+      <div class="metric-card">
+        <div class="metric-value">2 дня → 2 часа</div>
+        <div class="metric-note">Подготовка технического задания сократилась с ~2 рабочих дней до ~2 часов</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">30% → 10%</div>
+        <div class="metric-note">Доля времени на рутинные задачи снизилась с 30% проекта до 10%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">Стандарт ТЗ</div>
+        <div class="metric-note">Качество документации перестало зависеть от конкретного менеджера или дизайнера</div>
+      </div>
+    </div>
+
+    <div class="block-sep"></div>
+
+    <div class="section-heading reveal" id="stack"><h2>Стек технологий</h2></div>
+    <div class="tech-slider reveal" aria-label="Слайдер стека">
+      <div class="tech-track" id="techTrack">
+        <span class="tech-chip">Python</span>
+        <span class="tech-chip">Flask</span>
+        <span class="tech-chip">Google Generative AI SDK</span>
+        <span class="tech-chip">Gemini (gemma-3-27b-it)</span>
+        <span class="tech-chip">Multi-Agent Orchestration</span>
+        <span class="tech-chip">JSON Schema Validation</span>
+        <span class="tech-chip">Retry &amp; Feedback Loop</span>
+        <span class="tech-chip">Prompt Template Library</span>
+      </div>
+    </div>
+
+    <div class="cta-wrap reveal" id="cta">
+      <h3>Обсудим ваш документооборот и подготовку ТЗ</h3>
+      <p>Покажем, как автоматизировать подготовку спецификаций, стандартизировать качество документов и ускорить запуск новых проектов без расширения штата.</p>
+      <a href="#" class="cta-btn" id="openBriefBtn">Запросить аудит документации</a>
+    </div>
+  </article>
+
+  <div class="modal-overlay" id="briefModal" role="dialog" aria-modal="true" aria-labelledby="briefTitle">
+    <form class="modal-card">
+      <button class="modal-close" id="closeBriefBtn" aria-label="Закрыть форму" type="button">×</button>
+      <h2 class="modal-title" id="briefTitle">Обсудить проект</h2>
+      <input class="modal-field" type="text" name="name" placeholder="Ваше имя"/>
+      <input class="modal-field" type="text" name="company" placeholder="Название компании"/>
+
+      <div class="modal-select" data-select="role">
+        <button class="modal-select-btn" type="button">Позиция в компании</button>
+        <ul class="modal-select-options">
+          <li><button type="button" data-value="CEO / Founder">CEO / Founder</button></li>
+          <li><button type="button" data-value="CTO">CTO</button></li>
+          <li><button type="button" data-value="Product Manager">Product Manager</button></li>
+          <li><button type="button" data-value="Marketing Director">Marketing Director</button></li>
+          <li><button type="button" data-value="Другое">Другое</button></li>
+        </ul>
+        <input type="hidden" name="role"/>
+      </div>
+
+      <div class="modal-select" data-select="team_size">
+        <button class="modal-select-btn" type="button">Размер команды</button>
+        <ul class="modal-select-options">
+          <li><button type="button" data-value="1-10">1-10</button></li>
+          <li><button type="button" data-value="11-50">11-50</button></li>
+          <li><button type="button" data-value="51-200">51-200</button></li>
+          <li><button type="button" data-value="200+">200+</button></li>
+        </ul>
+        <input type="hidden" name="team_size"/>
+      </div>
+
+      <div class="modal-select" data-select="budget">
+        <button class="modal-select-btn" type="button">Бюджет</button>
+        <ul class="modal-select-options">
+          <li><button type="button" data-value="До 300 000 ₽">До 300 000 ₽</button></li>
+          <li><button type="button" data-value="300 000 - 1 000 000 ₽">300 000 - 1 000 000 ₽</button></li>
+          <li><button type="button" data-value="1 000 000 - 3 000 000 ₽">1 000 000 - 3 000 000 ₽</button></li>
+          <li><button type="button" data-value="Более 3 000 000 ₽">Более 3 000 000 ₽</button></li>
+        </ul>
+        <input type="hidden" name="budget"/>
+      </div>
+
+      <textarea class="modal-field" name="task" placeholder="Опишите вашу задачу"></textarea>
+      <input class="modal-field" type="text" name="contact" placeholder="Ваш контакт (@telegram_id / +7 (999) 123-45-67)"/>
+      <div class="modal-submit-wrap"><button class="modal-submit" type="submit">Отправить заявку</button></div>
+    </form>
+  </div>
+
+  <script>
+    const hdr = document.getElementById('hdr');
+    const mobileToggle = document.getElementById('mobileNavToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    const casesToggle = document.getElementById('casesToggle');
+    const casesDropdown = document.getElementById('casesDropdown');
+    const openBriefBtn = document.getElementById('openBriefBtn');
+    const briefModal = document.getElementById('briefModal');
+    const closeBriefBtn = document.getElementById('closeBriefBtn');
+    const briefForm = briefModal?.querySelector('form');
+
+    window.addEventListener('scroll', () => {
+      hdr.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    mobileToggle.addEventListener('click', () => {
+      mobileNav.classList.toggle('open');
+    });
+
+    casesToggle?.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const isOpen = casesDropdown.classList.toggle('open');
+      casesToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    function closeBriefModal() {
+      if (!briefModal) return;
+      briefModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function openBriefModal() {
+      if (!briefModal) return;
+      briefModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    openBriefBtn?.addEventListener('click', (event) => {
+      event.preventDefault();
+      openBriefModal();
+    });
+
+    closeBriefBtn?.addEventListener('click', closeBriefModal);
+
+    briefModal?.addEventListener('click', (event) => {
+      if (event.target === briefModal) {
+        closeBriefModal();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeBriefModal();
+      }
+    });
+
+    briefForm?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      closeBriefModal();
+    });
+
+    const techTrack = document.getElementById('techTrack');
+    if (techTrack) {
+      techTrack.innerHTML += techTrack.innerHTML;
+      const chips = [...techTrack.querySelectorAll('.tech-chip')];
+      function updateTechOpacity() {
+        const center = window.innerWidth / 2;
+        chips.forEach((chip) => {
+          const rect = chip.getBoundingClientRect();
+          const chipCenter = rect.left + rect.width / 2;
+          const dist = Math.abs(center - chipCenter);
+          const opacity = Math.max(0.2, 1 - dist / (window.innerWidth * 0.55));
+          chip.style.opacity = opacity.toFixed(2);
+        });
+      }
+      window.addEventListener('scroll', updateTechOpacity, { passive: true });
+      window.addEventListener('resize', updateTechOpacity);
+      setInterval(updateTechOpacity, 120);
+      updateTechOpacity();
+    }
+
+    const modalSelects = briefModal?.querySelectorAll('.modal-select') || [];
+    function closeAllSelects(except) {
+      modalSelects.forEach((select) => {
+        if (select !== except) select.classList.remove('open');
+      });
+    }
+
+    modalSelects.forEach((select) => {
+      const button = select.querySelector('.modal-select-btn');
+      const hiddenInput = select.querySelector('input[type="hidden"]');
+      button?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const willOpen = !select.classList.contains('open');
+        closeAllSelects(select);
+        select.classList.toggle('open', willOpen);
+      });
+      select.querySelectorAll('.modal-select-options button').forEach((option) => {
+        option.addEventListener('click', () => {
+          const value = option.getAttribute('data-value') || '';
+          if (hiddenInput) hiddenInput.value = value;
+          if (button) {
+            button.textContent = value;
+            button.classList.add('active');
+          }
+          select.classList.remove('open');
+        });
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!event.target.closest('.modal-select')) {
+        closeAllSelects();
+      }
+    });
+
+
+    document.addEventListener('click', (event) => {
+      if (!casesDropdown || !casesToggle) return;
+      if (!casesDropdown.contains(event.target) && !casesToggle.contains(event.target)) {
+        casesDropdown.classList.remove('open');
+        casesToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    mobileNav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => mobileNav.classList.remove('open'));
+    });
+
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+
+    reveals.forEach(el => obs.observe(el));
+
+    const roadmapItems = document.querySelectorAll('.roadmap-item');
+    const roadmapObs = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2, rootMargin: '0px 0px -15% 0px' });
+    roadmapItems.forEach((item) => roadmapObs.observe(item));
+
+    const architectureNodes = document.querySelectorAll('.architecture-system .agent-node');
+    const architectureObs = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        entry.target.classList.toggle('visible', entry.isIntersecting);
+      });
+    }, { threshold: 0.2, rootMargin: '-8% 0px -8% 0px' });
+    architectureNodes.forEach((node) => architectureObs.observe(node));
+
+    (function () {
+      const bg = document.getElementById('pageBg');
+      const svgBase = document.getElementById('svgBase');
+      const svgReveal = document.getElementById('svgReveal');
+      const patBase = document.getElementById('grid-base-pattern');
+      const patReveal = document.getElementById('grid-reveal-pattern');
+
+      if (!bg || !svgBase || !svgReveal || !patBase || !patReveal) return;
+
+      const CELL = 44;
+      const SPX = 0.42;
+      const SPY = 0.28;
+      let offX = 0;
+      let offY = 0;
+
+      function setSize() {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        [svgBase, svgReveal].forEach((svg) => {
+          svg.setAttribute('width', String(w));
+          svg.setAttribute('height', String(h));
+          svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+        });
+      }
+
+      function tick() {
+        offX = (offX + SPX) % CELL;
+        offY = (offY + SPY) % CELL;
+        patBase.setAttribute('x', String(offX));
+        patBase.setAttribute('y', String(offY));
+        patReveal.setAttribute('x', String(offX));
+        patReveal.setAttribute('y', String(offY));
+        requestAnimationFrame(tick);
+      }
+
+      window.addEventListener('mousemove', (e) => {
+        bg.style.setProperty('--cx', `${e.clientX}px`);
+        bg.style.setProperty('--cy', `${e.clientY}px`);
+      }, { passive: true });
+
+      window.addEventListener('mouseleave', () => {
+        bg.style.setProperty('--cx', '-500px');
+        bg.style.setProperty('--cy', '-500px');
+      });
+
+      setSize();
+      window.addEventListener('resize', setSize);
+      requestAnimationFrame(tick);
+    })();
+  </script>
+</body>
+</html>

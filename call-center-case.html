@@ -1,14 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Мультиагентная система для SMM · Aivion</title>
-  <meta name="description" content="Кейс о том, как мультиагентная система автоматизировала контент-пайплайн для 23 Telegram-каналов и ускорила выпуск постов в 20 раз."/>
+  <title>AI-микросервис для колл-центров · Aivion</title>
+  <meta name="description" content="Кейс о том, как AI-микросервис автоматизировал обработку звонков в e-commerce: сократил время с 2 минут до 30 секунд и повысил точность данных."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
   <style>
     :root {
       --bg:#000;
@@ -24,6 +23,8 @@
       --section-line:rgba(var(--accent-rgb),0.11);
       --radius:18px;
       --content-w:1180px;
+      --ease:cubic-bezier(0.4,0,0.2,1);
+      --header-h:80px;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
@@ -60,17 +61,48 @@
     }
     @keyframes orbFloat{0%{transform:translate(0,0) scale(1)}100%{transform:translate(2%,-3%) scale(1.06)}}
     .page-grid{display:none}
- 
 
-    header{position:fixed;top:0;left:0;right:0;z-index:100;padding:15px clamp(16px,4vw,48px);transition:border-color .35s,background .35s}
-    header.scrolled{background:rgba(0,0,0,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--stroke)}
-    .header-top{display:flex;align-items:center;justify-content:space-between;gap:24px;max-width:1200px;margin:0 auto}
-    .header-logo{font-family:"Montserrat",sans-serif;font-weight:800;font-size:18px;color:var(--text);text-decoration:none;flex-shrink:0}
-    .header-logo span{color:var(--accent)}
-
-    .header-nav{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-left:auto}
-    .nav-link{padding:8px 11px;border-radius:999px;border:1px solid transparent;text-decoration:none;color:var(--text);font-size:12px;font-family:"Montserrat",sans-serif;letter-spacing:.06em;text-transform:uppercase;transition:.2s}
-    .nav-link:hover{border-color:var(--stroke-accent);color:var(--accent)}
+    header{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      height:var(--header-h);
+      padding:0 clamp(20px,5vw,64px);
+    }
+    header::before{
+      content:"";position:absolute;inset:0;
+      background:rgba(0,0,0,0);
+      border-bottom:1px solid rgba(255,255,255,0);
+      transition:background .4s, border-color .4s;
+    }
+    header.scrolled::before{
+      background:rgba(0,0,0,0.72);
+      backdrop-filter:blur(20px);
+      border-color:rgba(255,255,255,0.08);
+    }
+    .header-top{
+      position:relative;z-index:1;
+      display:flex;align-items:center;justify-content:space-between;
+      gap:24px;width:min(100%,1320px);height:100%;margin:0 auto;
+    }
+    .header-logo{font-family:"Playfair Display", Georgia, serif;font-weight:700;font-size:22px;letter-spacing:.04em;font-style:italic;color:#fff;text-decoration:none;flex-shrink:0}
+    .header-nav{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-left:auto}
+    .nav-link{
+      padding:8px 14px;border-radius:999px;border:1px solid transparent;text-decoration:none;
+      color:rgba(235,235,235,0.52);font-size:12px;font-family:"Montserrat",sans-serif;
+      font-weight:500;letter-spacing:.06em;text-transform:uppercase;
+      transition:color .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease);
+    }
+    .nav-link:hover{color:var(--text)}
+    .nav-cta{
+      background:var(--accent);color:#1a0800 !important;font-weight:700;
+      padding:10px 20px;border-radius:999px;
+      box-shadow:0 0 0 1px rgba(232,146,10,0.15),0 8px 24px rgba(232,146,10,0.20);
+      transition:background .25s var(--ease),transform .25s var(--ease),box-shadow .25s var(--ease) !important;
+    }
+    .nav-cta:hover{
+      background:#F5A822 !important;
+      transform:translateY(-1px);
+      box-shadow:0 0 0 1px rgba(232,146,10,0.25),0 12px 32px rgba(232,146,10,0.28) !important;
+    }
     .cases-menu{position:relative}
     .cases-btn{padding:9px 14px;border:1px solid rgba(255,255,255,.2);border-radius:4px;background:transparent;color:#A5A5A5;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:.2s;cursor:pointer;font-family:"Montserrat",sans-serif}
     .cases-btn:hover{transform:translateY(-1px);color:#D0D0D0;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.35)}
@@ -79,11 +111,28 @@
     .cases-item{display:block;padding:9px 11px;border:1px solid transparent;border-radius:10px;text-decoration:none;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#fff;line-height:1.4}
     .cases-item:hover{border-color:rgba(var(--accent-rgb),.35);background:rgba(255,255,255,.05);color:var(--accent)}
 
-    .nav-toggle{display:none;width:42px;height:42px;border-radius:10px;border:1px solid var(--stroke);background:rgba(44,44,44,.55);color:var(--text);font-size:20px;cursor:pointer}
-    .mobile-nav{display:none;position:absolute;top:64px;right:16px;left:16px;background:rgba(20,20,20,.68);border:1px solid rgba(255,255,255,.24);border-radius:16px;padding:10px;gap:8px;flex-direction:column;backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);box-shadow:0 12px 30px rgba(0,0,0,.35),inset 0 1px rgba(255,255,255,.18)}
-    .mobile-nav.open{display:flex}
-    .mobile-cases{display:flex;flex-direction:column;gap:7px;padding:2px 2px 0}
-    .mobile-cases-title{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.58);padding:6px 10px}
+    .nav-toggle{
+      display:none;position:relative;z-index:101;
+      background:none;border:none;cursor:pointer;padding:8px;
+      flex-direction:column;gap:5px;
+    }
+    .nav-toggle span{
+      display:block;width:22px;height:2px;background:var(--text);border-radius:2px;
+      transition:transform .3s var(--ease), opacity .3s var(--ease);
+    }
+    .nav-toggle.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .nav-toggle.is-open span:nth-child(2){opacity:0}
+    .nav-toggle.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .mobile-menu{
+      display:none;position:fixed;inset:0;z-index:99;
+      background:rgba(0,0,0,0.96);backdrop-filter:blur(24px);
+      flex-direction:column;align-items:center;justify-content:center;
+      opacity:0;pointer-events:none;transition:opacity .3s var(--ease);
+    }
+    .mobile-menu.open{opacity:1;pointer-events:auto}
+    .mobile-nav{display:flex;flex-direction:column;align-items:center;gap:20px}
+    .mobile-nav .nav-link{font-size:18px;font-weight:600}
+    .mobile-nav .nav-cta{font-size:14px}
 
     .case-hero{position:relative;z-index:10;padding:190px clamp(20px,5vw,60px) 56px;max-width:var(--content-w);margin:0 auto}
     .hero-top-actions{margin-bottom:20px;display:flex;justify-content:flex-start}
@@ -105,17 +154,21 @@
     .section-heading h2{font-size:clamp(28px,2.8vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.2}
     .case-body p{color:var(--text);margin-bottom:18px}
     .block-sep{border-top:1px solid var(--section-line);margin:56px 0}
-
     .problem-accent{color:var(--accent);font-weight:700}
 
-    .solution-flow{display:grid;gap:14px;margin-top:22px}
-    .flow-step{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:flex-start;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.12)}
-    .flow-step:last-child{border-bottom:none}
-    .flow-dot{width:14px;height:14px;margin-top:11px;position:relative;display:inline-block}
-    .flow-dot::before,.flow-dot::after{content:"";position:absolute;left:50%;top:50%;width:2px;height:14px;background:var(--accent);transform:translate(-50%,-50%);border-radius:2px}
-    .flow-dot::after{transform:translate(-50%,-50%) rotate(90deg)}
-    .flow-step h3{font-size:20px;margin-bottom:6px;color:var(--text)}
-    .flow-step p{color:var(--muted)}
+    .solution-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:28px}
+    .solution-card{padding:26px 28px;border:1px solid rgba(255,255,255,.18);border-radius:16px;background:rgba(255,255,255,.02)}
+    .solution-card h3{font-size:20px;line-height:1.25;margin-bottom:10px;color:var(--accent)}
+    .solution-card p{margin-bottom:0;color:var(--text)}
+
+    .architecture-system{position:relative;max-width:100%;margin:28px auto 28px}
+    .architecture-road{display:none}
+    .architecture-agents{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;z-index:3}
+    .agent-node{position:relative;width:100%;padding:26px 28px;border:1px solid rgba(255,255,255,.32);border-radius:14px;background:rgba(255,255,255,.01);box-shadow:none;opacity:0;transform:translateY(26px) scale(.98);transition:opacity .55s ease,transform .55s ease}
+    .agent-node.visible{opacity:1;transform:translateY(0) scale(1)}
+    .agent-node h4{font-size:16px;color:var(--accent);margin-bottom:4px}
+    .agent-node p{font-size:13px;line-height:1.6;color:var(--text);margin:0}
+    .agent-node--tl,.agent-node--bl,.agent-node--tr,.agent-node--br{top:auto;left:auto;right:auto}
 
     .how-system-layout{display:block}
     .roadmap-copy{max-width:760px}
@@ -130,14 +183,6 @@
     .roadmap-item h4{font-size:18px;color:var(--accent);margin-bottom:6px}
     .roadmap-item p{color:var(--text);font-size:15px;line-height:1.7}
 
-    .architecture-system{position:relative;max-width:100%;margin:28px auto 28px}
-    .architecture-road{display:none}
-    .architecture-agents{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;z-index:3}
-    .agent-node{position:relative;width:100%;padding:26px 28px;border:1px solid rgba(255,255,255,.32);border-radius:14px;background:rgba(255,255,255,.01);box-shadow:none;opacity:0;transform:translateY(26px) scale(.98);transition:opacity .55s ease,transform .55s ease}
-    .agent-node.visible{opacity:1;transform:translateY(0) scale(1)}
-    .agent-node h4{font-size:16px;color:var(--accent);margin-bottom:4px}
-    .agent-node p{font-size:13px;line-height:1.6;color:var(--text);margin:0}
-    .agent-node--tl,.agent-node--bl,.agent-node--tr,.agent-node--br{top:auto;left:auto;right:auto}
     .tech-slider{position:relative;overflow:hidden;padding:10px 0;mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.2) 12%,#000 50%,rgba(0,0,0,.2) 88%,transparent 100%);-webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.2) 12%,#000 50%,rgba(0,0,0,.2) 88%,transparent 100%)}
     .tech-track{display:flex;align-items:center;gap:28px;min-width:max-content;animation:techFlow 22s linear infinite;will-change:transform}
     @keyframes techFlow{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -162,7 +207,7 @@
     .modal-select-btn.active{color:var(--text)}
     .modal-select-btn::after{content:"⌄";font-size:24px;color:rgba(255,255,255,.55);margin-left:12px;transform:translateY(-2px)}
     .modal-select.open .modal-select-btn::after{transform:rotate(180deg) translateY(2px)}
-    .modal-select-options{display:none; position:absolute;top:100%;width:100%;z-index:10;list-style:none;margin:8px 0 10px;padding:14px 16px;border:1px solid rgba(255,255,255,.16);background:#1a1a1a}
+    .modal-select-options{display:none;position:absolute;top:100%;width:100%;z-index:10;list-style:none;margin:8px 0 10px;padding:14px 16px;border:1px solid rgba(255,255,255,.16);background:#1a1a1a}
     .modal-select.open .modal-select-options{display:block}
     .modal-select-options button{width:100%;background:none;border:none;text-align:left;color:#fff;font-size:18px;font-family:"Montserrat",sans-serif;padding:10px 0;cursor:pointer}
     .modal-select-options button:hover{color:var(--accent)}
@@ -188,10 +233,10 @@
       .bg-orb--gold,.bg-orb--amber,.bg-orb--sun{opacity:.25}
       .light-source--top-right{right:-26%;top:-24%;width:76%;height:76%;opacity:.72}
       .light-source--hero-focus{left:-24%;bottom:-24%;width:82%;height:82%;filter:blur(86px);opacity:.74}
-      .hero-results{grid-template-columns:1fr}
+      .hero-results,.solution-grid,.architecture-agents{grid-template-columns:1fr}
       .header-nav{display:none}
-      header .cases-menu{display:none}
-      .nav-toggle{display:grid;place-items:center}
+      .nav-toggle{display:flex}
+      .mobile-menu{display:flex}
       .case-hero{padding-top:145px}
       .hero-top-actions .cases-menu{display:inline-block}
       .roadmap-vertical{gap:22px}
@@ -201,10 +246,6 @@
       .roadmap-item.left .roadmap-content,
       .roadmap-item.right .roadmap-content{grid-column:2;justify-self:start;text-align:left;padding:0}
       .roadmap-marker{grid-column:1;justify-self:center;width:24px;height:24px;box-shadow:0 0 0 5px rgba(var(--accent-rgb),.08);margin-top:4px}
-      .architecture-system{min-height:auto}
-      .architecture-road{display:none}
-      .architecture-agents{grid-template-columns:1fr}
-      .agent-node{width:100%}
     }
     @media (max-width:640px){
       .modal-card{padding:24px 18px 20px}
@@ -213,10 +254,6 @@
       .modal-select-btn{font-size:26px}
       .modal-select-options button{font-size:22px}
       .modal-submit{font-size:15px;padding:14px 10px}
-      .architecture-system{min-height:auto}
-      .architecture-road{display:none}
-      .architecture-agents{position:relative;display:grid;grid-template-columns:1fr;gap:14px}
-      .agent-node{position:relative;width:100%;left:auto;right:auto;top:auto;bottom:auto;margin:0;opacity:1;transform:none}
     }
   </style>
 </head>
@@ -256,118 +293,115 @@
 
   <header id="hdr">
     <div class="header-top">
-      <a class="header-logo" href="/">Aivion<span>.</span></a>
+      <a class="header-logo" href="Aivion.html">Aivion</a>
 
       <nav class="header-nav" aria-label="Навигация по кейсу">
         <a class="nav-link" href="#problem">Проблема</a>
         <a class="nav-link" href="#solution">Решение</a>
         <a class="nav-link" href="#example">Пример</a>
         <a class="nav-link" href="#stack">Стек</a>
+        <a class="nav-link nav-cta" href="#" data-open-brief>Обсудить задачу</a>
       </nav>
 
-
-      <button class="nav-toggle" id="mobileNavToggle" aria-label="Открыть меню">☰</button>
-      <nav class="mobile-nav" id="mobileNav" aria-label="Мобильная навигация">
-        <a class="nav-link" href="#problem">Проблема</a>
-        <a class="nav-link" href="#solution">Решение</a>
-        <a class="nav-link" href="#example">Пример</a>
-        <a class="nav-link" href="#stack">Стек</a>
-        <div class="mobile-cases" aria-label="Список кейсов">
-          <span class="mobile-cases-title">Все кейсы</span>
-          <a class="cases-item" href="#">Мультиагентная система SMM</a>
-          <a class="cases-item" href="#">AI-Микросервис для колл-центра</a>
-          <a class="cases-item" href="#">PromptLab</a>
-          <a class="cases-item" href="#">Составитель ТЗ</a>
-          <a class="cases-item" href="#">Корпоративная PBMS система</a>
-        </div>
-      </nav>
+      <button class="nav-toggle" id="menuToggle" type="button" aria-expanded="false" aria-label="Открыть меню">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
+  <div class="mobile-menu" id="mobileMenu">
+    <nav class="mobile-nav" aria-label="Мобильная навигация по кейсу">
+      <a class="nav-link" href="#problem">Проблема</a>
+      <a class="nav-link" href="#solution">Решение</a>
+      <a class="nav-link" href="#example">Пример</a>
+      <a class="nav-link" href="#stack">Стек</a>
+      <a class="nav-link nav-cta" href="#" data-open-brief>Обсудить задачу</a>
+    </nav>
+  </div>
 
   <div class="case-hero warm-section">
     <div class="hero-top-actions">
-      <div class="cases-menu">
-        <button class="cases-btn" id="casesToggle" aria-expanded="false" aria-controls="casesDropdown">← Все кейсы</button>
-        <div class="cases-dropdown" id="casesDropdown">
-          <a class="cases-item" href="#">Мультиагентная система SMM</a>
-          <a class="cases-item" href="#">AI-Микросервис для колл-центра</a>
-          <a class="cases-item" href="#">PromptLab</a>
-          <a class="cases-item" href="#">Составитель ТЗ</a>
-          <a class="cases-item" href="#">Корпоративная PBMS система</a>
-        </div>
-      </div>
+      <a class="cases-btn" href="Aivion.html#portfolio">← Другие кейсы</a>
     </div>
-    <h1 class="case-title reveal">Мультиагентная система <br> для <span class="hi">SMM</span></h1>
-    <p class="case-lead reveal">К нам обратилось маркетинговое агентство (NDA), управляющее <span class="accent-yellow">23 Telegram-каналами</span> разных тематик. Подготовка одного поста занимала <span class="accent-white">около часа</span>, ограничивала масштабирование и снижала качество контента при росте нагрузки на команду.</p>
+    <h1 class="case-title reveal">AI-микросервис <br> для <span class="hi">колл-центров</span></h1>
+    <p class="case-lead reveal">К нам обратилась сервис доставки и логистики из e-commerce. Команда ежедневно обрабатывала тысячи входящих заказов по телефону, и на один заказ уходило <span class="accent-white">около 2 минут</span> ручной работы. На росте нагрузки это сразу увеличивало риск ошибок в адресах, составе заказа и комментариях к доставке.</p>
   </div>
 
   <div class="section-divider"></div>
 
   <article class="case-body warm-section">
     <div class="section-heading reveal" id="problem"><h2>Проблема</h2></div>
-   Один специалист закрывал <span class="accent-white">четыре</span> принципиально разные задачи одновременно, что снижало качество каждого этапа по отдельности и делало масштабирование невозможным без найма.</p>
-    <p class="reveal">SMM-специалист вручную проходил все этапы: придумывал тему, писал текст, искал изображения и оформлял публикацию. На один пост стабильно уходило около 50 минут.<br>
-    Также отсутствовала стандартизация: стиль и структура постов зависели от конкретного SMM-менеджера - кто-то делал лучше, а кто-то хуже <br> <br> <span class="problem-accent">Вывод:</span> корневая проблема в архитектуре процесса — один специалист закрывал четыре принципиально разные задачи одновременно, что снижало качество каждого этапа по отдельности и делало масштабирование невозможным без найма.</p>
+    <p class="reveal">Оператор одновременно вёл разговор с клиентом и вручную переносил данные в CRM: адрес, состав заказа, контактные детали и комментарии по доставке. При плотном потоке звонков это регулярно приводило к неточностям и потере качества сервиса.</p>
+    <p class="reveal">Ошибки в адресах и деталях заказа напрямую били по SLA доставки, повторным контактам и клиентскому опыту. Дополнительно у бизнеса не было прозрачного контура контроля качества: в CRM был только итог, но не было понимания, где и почему возникла ошибка.</p>
+    <p class="reveal"><span class="problem-accent">Вывод:</span> узкое место было в ручной обработке звонков и отсутствии стандартизированного контроля. Компании нужна была автоматизация, которая снимает человеческий фактор с ввода данных и даёт управляемую аналитику по каждому звонку.</p>
 
     <div class="block-sep"></div>
 
     <div class="section-heading reveal" id="solution"><h2>Решение</h2></div>
-     <p class="reveal">Цель была в том, чтобы <strong>автоматизировать полный цикл создания контента</strong> и обеспечить единый стандарт качества <strong>без расширения штата.</strong></p>
-    <p class="reveal">Для этого мы разработали веб-приложение на базе Google Gemini с мультиагентной архитектурой, <strong>автоматизирующее полный цикл создания контента</strong> - от идеи до готового поста, с одновременной <strong>стандартизацией</strong> и <strong>повышением качества</strong> за счёт эталонного Tone of Voice.</p>
-    <p class="reveal">Система построена как конвейер из специализированных AI-агентов, где каждый из них отвечает за отдельный этап и передаёт результат следующему.</p>
+    <p class="reveal">Мы разработали AI-микросервис на FastAPI, который интегрируется с CRM и работает в фоне: забирает запись звонка, извлекает нужные данные и возвращает структурированный JSON прямо в поля заказа.</p>
+    <p class="reveal">Архитектура построена асинхронно: API быстро принимает задачу, воркеры обрабатывают звонки параллельно, а бизнес получает предсказуемое время обработки, прозрачный контроль затрат и устойчивость к сбоям внешнего AI-провайдера.</p>
 
-    <div class="architecture-system reveal" aria-label="Диаграмма мультиагентной архитектуры">
+    <div class="solution-grid reveal">
+      <article class="solution-card">
+        <h3>Address Only</h3>
+        <p>Быстрый режим для извлечения только критичных данных: адрес, детали заказа и комментарии к доставке. Перед отправкой в CRM всё валидируется схемой, чтобы в систему попадали только корректные и унифицированные поля.</p>
+      </article>
+      <article class="solution-card">
+        <h3>Full Transcript</h3>
+        <p>Расширенный режим для полной расшифровки разговора с ролями «Клиент / Оператор» и таймкодами. Он нужен для QA, обучения операторов и разбора спорных кейсов по доставке.</p>
+      </article>
+    </div>
+
+    <div class="architecture-system reveal" aria-label="Диаграмма архитектуры AI-микросервиса">
       <div class="architecture-agents">
-        <article class="agent-node agent-node--tl"><h4>Агент-планировщик</h4><p>Формирует структуру поста, ключевые мысли и формат подачи. На выходе создаёт бриф, а не черновой текст.</p></article>
-        <article class="agent-node agent-node--bl"><h4>Агент-копирайтер</h4><p>Пишет текст строго по брифу и не отвлекается на структуру или форматирование, что даёт более чистый и точный контент.</p></article>
-        <article class="agent-node agent-node--tr"><h4>Агент-форматировщик</h4><p>Адаптирует материал под Telegram: абзацы, эмодзи и CTA. Работает только с формой, не меняя смысл сообщения.</p></article>
-        <article class="agent-node agent-node--br"><h4>Агент-редактор</h4><p>Проверяет грамотность, выравнивает стиль и контролирует tone of voice перед финальной выдачей в публикацию.</p></article>
+        <article class="agent-node agent-node--tl"><h4>Приём задач</h4><p>CRM или телефония передают ссылку на запись звонка и параметры заказа. Сервис сразу возвращает статус и ставит задачу в очередь.</p></article>
+        <article class="agent-node agent-node--tr"><h4>Извлечение данных</h4><p>AI-модель выделяет адрес, состав заказа, комментарии и другие атрибуты, после чего результат проходит валидацию по схеме.</p></article>
+        <article class="agent-node agent-node--bl"><h4>Запись в CRM</h4><p>Готовый JSON автоматически попадает в карточку заказа. Оператор работает уже со структурированными данными, а не вбивает их вручную.</p></article>
+        <article class="agent-node agent-node--br"><h4>Контроль качества</h4><p>Для нужных звонков система формирует полную транскрипцию и отдаёт её в QA-контур, чтобы отслеживать качество коммуникации и отклонения по процессу.</p></article>
       </div>
     </div>
-    <p class="reveal visible">Это устраняет перегрузку одного специалиста и формирует <span class="accent-yellow">предсказуемое качество результата</span>.</p>
+    <p class="reveal visible">Такой контур одновременно ускоряет операционную обработку и даёт бизнесу <span class="accent-yellow">прозрачный контроль качества звонков</span>.</p>
 
     <div class="block-sep"></div>
-    
-    
+
     <section class="how-system-layout" aria-label="Как работает система">
       <div class="roadmap-copy">
         <div class="section-heading reveal" id="example"><h2>Как работает система</h2></div>
-        <p class="reveal visible">Менеджер открывает систему и вводит параметры: <br>Целевая удитория — начинающие предприниматели, <br>Цель — заинтересовать в покупке его Telegram-бота, <br>Тезисы — ["вы теряете до 40% прибыли на логистике", "автоматизация через Telegram упрощает управление заказами", ...] </p>
+        <p class="reveal visible">После завершения разговора CRM или телефония отправляют в сервис ссылку на аудио и параметры заказа. Дальше обработка идёт полностью автоматически, без участия оператора.</p>
       </div>
 
-      <div class="roadmap-vertical reveal" aria-label="Roadmap создания поста">
+      <div class="roadmap-vertical reveal" aria-label="Roadmap обработки звонка">
         <article class="roadmap-item left">
           <div class="roadmap-content">
-            <h4>Формирование брифа</h4>
-            <p>Планировщик создаёт заголовок и структуру поста: проблема, последствия, решение и призыв к действию.</p>
+            <h4>Приём и маршрутизация</h4>
+            <p>Сервис принимает запрос и определяет режим обработки: быстрый ввод в CRM или полная транскрипция для контроля качества.</p>
           </div>
           <span class="roadmap-marker"></span>
         </article>
         <article class="roadmap-item right">
           <span class="roadmap-marker"></span>
           <div class="roadmap-content">
-            <h4>Написание текста</h4>
-            <p>Копирайтер генерирует основной текст строго по утверждённой структуре без отклонений от брифа.</p>
+            <h4>Извлечение и валидация</h4>
+            <p>AI-модель извлекает адрес, детали заказа и дополнительные атрибуты, а затем данные проходят проверку схемы через Pydantic.</p>
           </div>
         </article>
         <article class="roadmap-item left">
           <div class="roadmap-content">
-            <h4>Telegram-адаптация</h4>
-            <p>Форматировщик подготавливает пост для публикации: разбивает блоки, добавляет визуальные акценты и CTA.</p>
+            <h4>Запись результата</h4>
+            <p>Подготовленный JSON автоматически записывается в CRM, а оператор получает уже заполненные и стандартизированные поля.</p>
           </div>
           <span class="roadmap-marker"></span>
         </article>
         <article class="roadmap-item right">
           <span class="roadmap-marker"></span>
           <div class="roadmap-content">
-            <h4>Финальная редактура</h4>
-            <p>Редактор исправляет ошибки, проверяет единый стиль и финализирует пост к отправке менеджеру.</p>
+            <h4>Контроль качества</h4>
+            <p>Если нужен QA-контур, сервис сохраняет полную транскрипцию с таймкодами и ролями для последующей проверки звонка.</p>
           </div>
         </article>
         <article class="roadmap-item left">
           <div class="roadmap-content">
-            <h4>Публикация</h4>
-            <p>Готовый пост поступает менеджеру на быстрый контроль и после подтверждения публикуется в нужном канале.</p>
+            <h4>Мониторинг и отчётность</h4>
+            <p>Telegram-бот и отчёты показывают статус обработки, затраты и ключевые метрики, чтобы команда могла управлять процессом в реальном времени.</p>
           </div>
           <span class="roadmap-marker"></span>
         </article>
@@ -379,16 +413,16 @@
     <div class="section-heading reveal" id="results"><h2>Результаты</h2></div>
     <div class="hero-results reveal" aria-label="Ключевые результаты">
       <div class="metric-card">
-        <div class="metric-value">x10 Скорость</div>
-        <div class="metric-note">Написание поста теперь занимает 5 минут вместо 50</div>
+        <div class="metric-value">x4 скорость</div>
+        <div class="metric-note">Время обработки одного заказа сократилось примерно с 2 минут до 30 секунд.</div>
       </div>
       <div class="metric-card">
-        <div class="metric-value">−80% рутины</div>
-        <div class="metric-note">Перенесли роль специалиста в контроль качества</div>
+        <div class="metric-value">−70% ошибок</div>
+        <div class="metric-note">Снизилось количество ошибок в адресах и деталях заказа за счёт автоматического извлечения и JSON-валидации.</div>
       </div>
       <div class="metric-card">
-        <div class="metric-value">x1.3 ERR</div>
-        <div class="metric-note">Рост вовлеченности благодаря повышению качества</div>
+        <div class="metric-value">QA-контур</div>
+        <div class="metric-note">Компания получила полную расшифровку звонков и прозрачный инструмент для контроля качества операторов.</div>
       </div>
     </div>
 
@@ -398,20 +432,20 @@
     <div class="tech-slider reveal" aria-label="Слайдер стека">
       <div class="tech-track" id="techTrack">
         <span class="tech-chip">Python</span>
-        <span class="tech-chip">LangChain</span>
-        <span class="tech-chip">OpenAI API</span>
         <span class="tech-chip">FastAPI</span>
-        <span class="tech-chip">PostgreSQL</span>
+        <span class="tech-chip">Asyncio</span>
+        <span class="tech-chip">Pydantic</span>
+        <span class="tech-chip">Google Generative AI</span>
         <span class="tech-chip">Telegram Bot API</span>
-        <span class="tech-chip">n8n</span>
-        <span class="tech-chip">Redis</span>
+        <span class="tech-chip">Docker</span>
+        <span class="tech-chip">S3</span>
       </div>
     </div>
 
     <div class="cta-wrap reveal" id="cta">
-      <h3>Обсудим вашу SMM-задачу</h3>
-      <p>Покажем, как выстроить мультиагентный конвейер для контента, сократить время выпуска постов и масштабировать каналы без расширения команды.</p>
-      <a href="#" class="cta-btn" id="openBriefBtn">Запросить разбор</a>
+      <h3>Обсудим автоматизацию вашего колл-центра</h3>
+      <p>Покажем, как сократить ручной ввод, снизить ошибки в заказах и встроить контроль качества звонков без перегрузки операторов.</p>
+      <a href="#" class="cta-btn" id="openBriefBtn">Запросить аудит процесса</a>
     </div>
   </article>
 
@@ -464,11 +498,11 @@
 
   <script>
     const hdr = document.getElementById('hdr');
-    const mobileToggle = document.getElementById('mobileNavToggle');
-    const mobileNav = document.getElementById('mobileNav');
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
     const casesToggle = document.getElementById('casesToggle');
     const casesDropdown = document.getElementById('casesDropdown');
-    const openBriefBtn = document.getElementById('openBriefBtn');
+    const openBriefBtns = document.querySelectorAll('[data-open-brief], #openBriefBtn');
     const briefModal = document.getElementById('briefModal');
     const closeBriefBtn = document.getElementById('closeBriefBtn');
     const briefForm = briefModal?.querySelector('form');
@@ -477,8 +511,17 @@
       hdr.classList.toggle('scrolled', window.scrollY > 40);
     }, { passive: true });
 
-    mobileToggle.addEventListener('click', () => {
-      mobileNav.classList.toggle('open');
+    function closeMenu() {
+      menuToggle?.classList.remove('is-open');
+      menuToggle?.setAttribute('aria-expanded', 'false');
+      mobileMenu?.classList.remove('open');
+    }
+
+    menuToggle?.addEventListener('click', () => {
+      const willOpen = !mobileMenu.classList.contains('open');
+      mobileMenu.classList.toggle('open', willOpen);
+      menuToggle.classList.toggle('is-open', willOpen);
+      menuToggle.setAttribute('aria-expanded', String(willOpen));
     });
 
     casesToggle?.addEventListener('click', (event) => {
@@ -499,22 +542,24 @@
       document.body.style.overflow = 'hidden';
     }
 
-    openBriefBtn?.addEventListener('click', (event) => {
-      event.preventDefault();
-      openBriefModal();
+    openBriefBtns.forEach((button) => {
+      button?.addEventListener('click', (event) => {
+        event.preventDefault();
+        openBriefModal();
+        closeMenu();
+      });
     });
 
     closeBriefBtn?.addEventListener('click', closeBriefModal);
 
     briefModal?.addEventListener('click', (event) => {
-      if (event.target === briefModal) {
-        closeBriefModal();
-      }
+      if (event.target === briefModal) closeBriefModal();
     });
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
         closeBriefModal();
+        closeMenu();
       }
     });
 
@@ -573,13 +618,7 @@
     });
 
     document.addEventListener('click', (event) => {
-      if (!event.target.closest('.modal-select')) {
-        closeAllSelects();
-      }
-    });
-
-
-    document.addEventListener('click', (event) => {
+      if (!event.target.closest('.modal-select')) closeAllSelects();
       if (!casesDropdown || !casesToggle) return;
       if (!casesDropdown.contains(event.target) && !casesToggle.contains(event.target)) {
         casesDropdown.classList.remove('open');
@@ -587,27 +626,22 @@
       }
     });
 
-    mobileNav.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => mobileNav.classList.remove('open'));
+    mobileMenu?.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => closeMenu());
     });
 
     const reveals = document.querySelectorAll('.reveal');
     const obs = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-        }
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
-
-    reveals.forEach(el => obs.observe(el));
+    reveals.forEach((el) => obs.observe(el));
 
     const roadmapItems = document.querySelectorAll('.roadmap-item');
     const roadmapObs = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible');
       });
     }, { threshold: 0.2, rootMargin: '0px 0px -15% 0px' });
     roadmapItems.forEach((item) => roadmapObs.observe(item));
