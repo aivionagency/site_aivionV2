@@ -449,25 +449,6 @@
     </div>
   </article>
 
-  <div class="modal-overlay" id="briefModal" role="dialog" aria-modal="true" aria-labelledby="briefTitle">
-    <form class="modal-card">
-      <button class="modal-close" id="closeBriefBtn" aria-label="Закрыть форму" type="button">×</button>
-      <h2 class="modal-title" id="briefTitle">Обсудить проект</h2>
-      <input class="modal-field" type="text" name="name" placeholder="Ваше имя"/>
-      <input class="modal-field" type="text" name="company" placeholder="Название компании"/>
-
-      <div class="modal-select" data-select="role">
-        <button class="modal-select-btn" type="button">Позиция в компании</button>
-        <ul class="modal-select-options">
-          <li><button type="button" data-value="CEO / Founder">CEO / Founder</button></li>
-          <li><button type="button" data-value="CTO">CTO</button></li>
-          <li><button type="button" data-value="Product Manager">Product Manager</button></li>
-          <li><button type="button" data-value="Marketing Director">Marketing Director</button></li>
-          <li><button type="button" data-value="Другое">Другое</button></li>
-        </ul>
-        <input type="hidden" name="role"/>
-      </div>
-
       <div class="modal-select" data-select="team_size">
         <button class="modal-select-btn" type="button">Размер команды</button>
         <ul class="modal-select-options">
@@ -704,5 +685,6 @@
       requestAnimationFrame(tick);
     })();
   </script>
+  <script src="contact-form.js"></script>
 </body>
 </html>
