@@ -185,6 +185,26 @@
       .modal-select-options button{font-size:22px}
       .modal-submit{font-size:15px;padding:14px 10px}
     }
+
+    .site-footer{border-top:1px solid rgba(255,255,255,0.18);padding:64px 0 36px;position:relative;z-index:2;background:rgba(0,0,0,0.98)}
+    .footer-inner{width:min(100% - 32px,1240px);margin:0 auto}
+    .footer-top{display:grid;grid-template-columns:1fr 1.6fr;gap:64px;padding-bottom:52px;border-bottom:1px solid rgba(255,255,255,0.18)}
+    .footer-brand{display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+    .footer-logo{font-family:"Playfair Display",Georgia,serif;font-weight:700;font-size:22px;letter-spacing:0.04em;font-style:italic;color:#fff;text-decoration:none}
+    .footer-tagline{font-size:14px;color:var(--muted);line-height:1.7;max-width:300px}
+    .footer-nav-group{display:grid;grid-template-columns:repeat(2,1fr);gap:40px}
+    .footer-col{display:flex;flex-direction:column;gap:14px}
+    .footer-col-title{font-family:"Montserrat",sans-serif;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent)}
+    .footer-links{display:flex;flex-direction:column;gap:10px}
+    .footer-links a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s;letter-spacing:0.02em;line-height:1.5}
+    .footer-links a:hover{color:var(--text)}
+    .footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding-top:28px}
+    .footer-copy{font-size:12px;color:rgba(235,235,235,0.30)}
+    .footer-legal{display:flex;gap:24px;flex-wrap:wrap}
+    .footer-legal a{font-size:12px;color:rgba(235,235,235,0.30);text-decoration:none;transition:color .2s}
+    .footer-legal a:hover{color:var(--muted)}
+    @media(max-width:860px){.footer-top{grid-template-columns:1fr;gap:40px}.footer-nav-group{grid-template-columns:1fr 1fr}}
+    @media(max-width:640px){.footer-nav-group{grid-template-columns:1fr}.footer-bottom{flex-direction:column;align-items:flex-start}}
   </style>
 </head>
 <body>
@@ -368,6 +388,45 @@
       <div class="modal-submit-wrap"><button class="modal-submit" type="submit">Отправить заявку</button></div>
     </form>
   </div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="footer-logo" href="index.html">Aivion</a>
+        <p class="footer-tagline">AI-системы, автоматизация и внутренние цифровые контуры — для команд, которые хотят работать умнее.</p>
+      </div>
+      <div class="footer-nav-group">
+        <div class="footer-col">
+          <p class="footer-col-title">Навигация</p>
+          <div class="footer-links">
+            <a href="index.html#portfolio">Кейсы</a>
+            <a href="index.html#services">Что делаем</a>
+            <a href="index.html#process">Процесс</a>
+            <a href="#" data-open-brief>Написать нам</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col-title">Кейсы</p>
+          <div class="footer-links">
+            <a href="call-center-case.html">AI разбор звонков</a>
+            <a href="pbms-case.html">Корпоративная система PBMS</a>
+            <a href="promptlab-case.html">LLM тестирование промптов</a>
+            <a href="smm-case.html">SMM автоматизация Telegram</a>
+            <a href="tz-generator-case.html">AI дизайн-спецификации</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 Aivion. Все права защищены.</p>
+      <div class="footer-legal">
+        <a href="/privacy">Политика персональных данных</a>
+        <a href="/consent">Согласие на обработку данных</a>
+      </div>
+    </div>
+  </div>
+</footer>
 
   <script>
     const hdr = document.getElementById('hdr');
