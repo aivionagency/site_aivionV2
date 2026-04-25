@@ -16,7 +16,7 @@ const contentTypes = {
 };
 
 function resolvePath(urlPath) {
-  if (urlPath === "/") return "Aivion.html";
+  if (urlPath === "/" || urlPath === "/Aivion.html") return "index.html";
 
   const cleanPath = decodeURIComponent(urlPath).replace(/^\/+/, "");
   if (!cleanPath || cleanPath.includes("..")) return null;
