@@ -119,32 +119,14 @@
     .cta-wrap p{max-width:640px;margin:0 auto 20px;color:var(--muted)}
     .cta-btn{display:inline-block;padding:13px 26px;border-radius:999px;background:var(--accent);color:#000;font-weight:700;text-decoration:none;font-family:"Montserrat",sans-serif;transition:.2s}
     .cta-btn:hover{transform:translateY(-2px);box-shadow:0 0 22px var(--accent-glow)}
-    .modal-overlay{position:fixed;inset:0;z-index:240;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .25s ease}
-    .modal-overlay.open{opacity:1;pointer-events:auto}
-    .modal-card{width:min(100%,500px);max-height:calc(100vh - 40px);overflow:auto;border:1px solid rgba(255,255,255,.14);border-radius:16px;background:#060606;box-shadow:0 28px 60px rgba(0,0,0,.45);padding:28px 28px 24px}
-    .modal-close{margin-left:auto;display:grid;place-items:center;width:34px;height:34px;border:none;background:transparent;color:rgba(255,255,255,.62);font-size:34px;line-height:1;cursor:pointer}
-    .modal-title{font-size:28px;font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-top:20px;margin-bottom:10px}
-    .modal-field{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.16);color:var(--text);font-family:"Montserrat",sans-serif;font-size:18px;padding:36px 2px 14px;outline:none}
-    .modal-field::placeholder{color:rgba(255,255,255,.35)}
-    .modal-field:focus{border-bottom-color:rgba(var(--accent-rgb),.55)}
-    .modal-select{position:relative;border-bottom:1px solid rgba(255,255,255,.16)}
-    .modal-select-btn{width:100%;border:none;background:transparent;color:rgba(255,255,255,.35);font-family:"Montserrat",sans-serif;font-size:18px;line-height:1.2;text-align:left;padding:18px 2px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
-    .modal-select-btn.active{color:var(--text)}
-    .modal-select-btn::after{content:"⌄";font-size:24px;color:rgba(255,255,255,.55);margin-left:12px;transform:translateY(-2px)}
-    .modal-select.open .modal-select-btn::after{transform:rotate(180deg) translateY(2px)}
-    .modal-select-options{display:none;position:absolute;top:100%;width:100%;z-index:10;list-style:none;margin:8px 0 10px;padding:14px 16px;border:1px solid rgba(255,255,255,.16);background:#1a1a1a}
-    .modal-select.open .modal-select-options{display:block}
-    .modal-select-options button{width:100%;background:none;border:none;text-align:left;color:#fff;font-size:18px;font-family:"Montserrat",sans-serif;padding:10px 0;cursor:pointer}
-    .modal-select-options button:hover{color:var(--accent)}
-    textarea.modal-field{min-height:140px;resize:vertical;padding-top:22px}
-    .modal-submit{margin-top:32px;width:100%;border:none;background:var(--accent);color:#000;font-family:"Montserrat",sans-serif;font-size:16px;font-weight:600;line-height:1.1;border-radius:0;padding:16px 12px;cursor:pointer;transition:.2s;max-width:420px}
-    .modal-submit:hover{filter:brightness(.96)}
-    .modal-submit-wrap{display:flex;justify-content:center}
+    .modal-select.open
+    .modal-select.open
+    textarea
     .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
     .reveal.visible{opacity:1;transform:translateY(0)}
     @media (min-width:901px){.how-system-layout{display:grid;grid-template-columns:minmax(300px,380px) minmax(0,1fr);gap:42px;align-items:start}.how-system-layout .section-heading{margin:0 0 18px}.how-system-layout .roadmap-vertical{margin-top:0}}
     @media (max-width:900px){body::after{opacity:.02}.page-bg{background:#020202}.grid-base,.grid-reveal{display:none}.bg-orb{animation:none;filter:blur(70px)}.bg-orb--gold,.bg-orb--amber,.bg-orb--sun{opacity:.25}.light-source--top-right{right:-26%;top:-24%;width:76%;height:76%;opacity:.72}.light-source--hero-focus{left:-24%;bottom:-24%;width:82%;height:82%;filter:blur(86px);opacity:.74}.hero-results,.solution-grid,.architecture-agents{grid-template-columns:1fr}.header-nav{display:none}.nav-toggle{display:flex}.mobile-menu{display:flex}.case-hero{padding-top:145px}.roadmap-vertical{gap:22px}.roadmap-vertical::before{left:18px;transform:none}.roadmap-item{grid-template-columns:36px 1fr;min-height:auto;align-items:flex-start;gap:14px}.roadmap-content{max-width:none}.roadmap-item.left .roadmap-content,.roadmap-item.right .roadmap-content{grid-column:2;justify-self:start;text-align:left;padding:0}.roadmap-marker{grid-column:1;justify-self:center;width:24px;height:24px;box-shadow:0 0 0 5px rgba(var(--accent-rgb),.08);margin-top:4px}}
-    @media (max-width:640px){.modal-card{padding:24px 18px 20px}.modal-title{font-size:32px}.modal-field{font-size:26px}.modal-select-btn{font-size:26px}.modal-select-options button{font-size:22px}.modal-submit{font-size:15px;padding:14px 10px}}
+    @media (max-width:640px){}
 
     .site-footer{border-top:1px solid rgba(255,255,255,0.18);padding:64px 0 36px;position:relative;z-index:2;background:rgba(0,0,0,0.98)}
     .footer-inner{width:min(100% - 32px,1240px);margin:0 auto}
@@ -225,117 +207,6 @@
         <h3>Пакетные прогоны промптов</h3>
         <p>Один и тот же запрос запускается до 20 раз в один клик, чтобы быстро проверить стабильность ответов и сравнить варианты без ручных повторов.</p>
       </article>
-      <article class="solution-card">
-        <h3>Панель параметров модели</h3>
-        <p>Temperature, Top-P, Top-K и Max Tokens управляются через визуальные контролы без редактирования конфигов, а результаты приходят потоково через SSE.</p>
-      </article>
-      <article class="solution-card">
-        <h3>Гибкое управление seed</h3>
-        <p>Пользователь фиксирует seed для воспроизводимых тестов или включает случайный режим для поиска креативных вариантов в одном интерфейсе.</p>
-      </article>
-      <article class="solution-card">
-        <h3>Полностью локальный контур</h3>
-        <p>Решение работает через Ollama и разворачивается внутри сети компании, поэтому данные не уходят во внешние сервисы и остаются в приватном контуре.</p>
-      </article>
-    </div>
-
-    <div class="architecture-system reveal" aria-label="Архитектура PromptLab">
-      <div class="architecture-agents">
-        <article class="agent-node"><h4>Batch Runner</h4><p>Ставит серию генераций в очередь и позволяет запускать сравнение вариантов одним действием без ручных повторов.</p></article>
-        <article class="agent-node"><h4>Model Controls</h4><p>Управляет параметрами модели через UI и помогает быстро переключаться между сценариями тестирования.</p></article>
-        <article class="agent-node"><h4>Seed Manager</h4><p>Даёт воспроизводимость, когда важна повторяемость результата, и вариативность, когда команда ищет новые формулировки.</p></article>
-        <article class="agent-node"><h4>Local Delivery</h4><p>Разворачивает весь контур локально и сохраняет приватность данных без зависимости от внешних облачных платформ.</p></article>
-      </div>
-    </div>
-    <p class="reveal visible">В итоге команда получила <span class="accent-yellow">скоростную инженерную среду для локальных LLM</span>, а не набор ручных терминальных операций.</p>
-
-    <div class="block-sep"></div>
-
-    <section class="how-system-layout" aria-label="Как работает система">
-      <div class="roadmap-copy">
-        <div class="section-heading reveal" id="example"><h2>Как работает система</h2></div>
-        <p class="reveal visible">Пользователь выбирает модель, вводит промпт и задаёт параметры теста в веб-интерфейсе. Система отправляет задания в очередь и по мере готовности возвращает результаты потоково, без зависания страницы.</p>
-      </div>
-      <div class="roadmap-vertical reveal" aria-label="Roadmap PromptLab">
-        <article class="roadmap-item left">
-          <div class="roadmap-content"><h4>Запуск серии генераций</h4><p>Пользователь задаёт количество прогонов и запускает серию одним действием, чтобы сразу получить массив ответов для сравнения.</p></div>
-          <span class="roadmap-marker"></span>
-        </article>
-        <article class="roadmap-item right">
-          <span class="roadmap-marker"></span>
-          <div class="roadmap-content"><h4>Настройка параметров модели</h4><p>Temperature, Top-P, Top-K и Max Tokens регулируются в панели и применяются к каждой генерации в серии.</p></div>
-        </article>
-        <article class="roadmap-item left">
-          <div class="roadmap-content"><h4>Управление seed-сценарием</h4><p>Для воспроизводимости фиксируется seed, а для вариативности включается случайный режим - оба сценария доступны в одном месте.</p></div>
-          <span class="roadmap-marker"></span>
-        </article>
-        <article class="roadmap-item right">
-          <span class="roadmap-marker"></span>
-          <div class="roadmap-content"><h4>Потоковая выдача результатов</h4><p>Ответы появляются по мере готовности через SSE, поэтому команда видит промежуточные результаты без ожидания завершения всей серии.</p></div>
-        </article>
-        <article class="roadmap-item left">
-          <div class="roadmap-content"><h4>Локальное развёртывание</h4><p>Приложение поднимается в локальной сети без внешних сервисов и сохраняет приватность данных клиентов.</p></div>
-          <span class="roadmap-marker"></span>
-        </article>
-      </div>
-    </section>
-
-    <div class="block-sep"></div>
-
-    <div class="section-heading reveal" id="results"><h2>Результаты</h2></div>
-    <div class="hero-results reveal" aria-label="Ключевые результаты">
-      <div class="metric-card"><div class="metric-value">x10 быстрее</div><div class="metric-note">Проверка одной гипотезы сократилась примерно с 5 минут до 30 секунд.</div></div>
-      <div class="metric-card"><div class="metric-value">-90% кликов</div><div class="metric-note">Ручные прогоны заменены пакетным тестированием промптов в одном запуске.</div></div>
-      <div class="metric-card"><div class="metric-value">Приватность</div><div class="metric-note">Все данные остаются в контуре компании без передачи во внешние облачные сервисы.</div></div>
-    </div>
-
-    <div class="block-sep"></div>
-
-    <div class="section-heading reveal" id="stack"><h2>Стек технологий</h2></div>
-    <div class="tech-slider reveal" aria-label="Слайдер стека">
-      <div class="tech-track" id="techTrack">
-        <span class="tech-chip">Python</span>
-        <span class="tech-chip">Flask</span>
-        <span class="tech-chip">Ollama API</span>
-        <span class="tech-chip">Server-Sent Events</span>
-        <span class="tech-chip">Threading</span>
-        <span class="tech-chip">Single-File Architecture</span>
-        <span class="tech-chip">Prompt Testing UI</span>
-        <span class="tech-chip">Local LLM Runtime</span>
-      </div>
-    </div>
-
-    <div class="cta-wrap reveal" id="cta">
-      <h3>Обсудим внедрение локальных AI-инструментов</h3>
-      <p>Покажем, как ускорить проверку гипотез, убрать ручные прогоны промптов и сохранить приватность данных внутри вашей команды.</p>
-      <a href="#" class="cta-btn" id="openBriefBtn">Запросить AI-аудит</a>
-    </div>
-  </article>
-      <div class="modal-select" data-select="team_size">
-        <button class="modal-select-btn" type="button">Размер команды</button>
-        <ul class="modal-select-options">
-          <li><button type="button" data-value="1-10">1-10</button></li>
-          <li><button type="button" data-value="11-50">11-50</button></li>
-          <li><button type="button" data-value="51-200">51-200</button></li>
-          <li><button type="button" data-value="200+">200+</button></li>
-        </ul>
-        <input type="hidden" name="team_size"/>
-      </div>
-      <div class="modal-select" data-select="budget">
-        <button class="modal-select-btn" type="button">Бюджет</button>
-        <ul class="modal-select-options">
-          <li><button type="button" data-value="До 300 000 ₽">До 300 000 ₽</button></li>
-          <li><button type="button" data-value="300 000 - 1 000 000 ₽">300 000 - 1 000 000 ₽</button></li>
-          <li><button type="button" data-value="1 000 000 - 3 000 000 ₽">1 000 000 - 3 000 000 ₽</button></li>
-          <li><button type="button" data-value="Более 3 000 000 ₽">Более 3 000 000 ₽</button></li>
-        </ul>
-        <input type="hidden" name="budget"/>
-      </div>
-      <textarea class="modal-field" name="task" placeholder="Опишите вашу задачу"></textarea>
-      <input class="modal-field" type="text" name="contact" placeholder="Ваш контакт (@telegram_id / +7 (999) 123-45-67)"/>
-      <div class="modal-submit-wrap"><button class="modal-submit" type="submit">Отправить заявку</button></div>
-    </form>
-  </div>
 
 <footer class="site-footer">
   <div class="footer-inner">

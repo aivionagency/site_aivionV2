@@ -164,28 +164,9 @@
     .cta-wrap p{max-width:640px;margin:0 auto 20px;color:var(--muted)}
     .cta-btn{display:inline-block;padding:13px 26px;border-radius:999px;background:var(--accent);color:#000;font-weight:700;text-decoration:none;font-family:"Montserrat",sans-serif;transition:.2s}
     .cta-btn:hover{transform:translateY(-2px);box-shadow:0 0 22px var(--accent-glow)}
-
-    .modal-overlay{position:fixed;inset:0;z-index:240;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .25s ease}
-    .modal-overlay.open{opacity:1;pointer-events:auto}
-    .modal-card{width:min(100%,500px);max-height:calc(100vh - 40px);overflow:auto;border:1px solid rgba(255,255,255,.14);border-radius:16px;background:#060606;box-shadow:0 28px 60px rgba(0,0,0,.45);padding:28px 28px 24px}
-    .modal-close{margin-left:auto;display:grid;place-items:center;width:34px;height:34px;border:none;background:transparent;color:rgba(255,255,255,.62);font-size:34px;line-height:1;cursor:pointer}
-    .modal-title{font-size:28px;font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-top:20px;margin-bottom:10px}
-    .modal-field{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.16);color:var(--text);font-family:"Montserrat",sans-serif;font-size:18px;padding:36px 2px 14px;outline:none}
-    .modal-field::placeholder{color:rgba(255,255,255,.35)}
-    .modal-field:focus{border-bottom-color:rgba(var(--accent-rgb),.55)}
-    .modal-select{position:relative;border-bottom:1px solid rgba(255,255,255,.16)}
-    .modal-select-btn{width:100%;border:none;background:transparent;color:rgba(255,255,255,.35);font-family:"Montserrat",sans-serif;font-size:18px;line-height:1.2;text-align:left;padding:18px 2px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
-    .modal-select-btn.active{color:var(--text)}
-    .modal-select-btn::after{content:"⌄";font-size:24px;color:rgba(255,255,255,.55);margin-left:12px;transform:translateY(-2px)}
-    .modal-select.open .modal-select-btn::after{transform:rotate(180deg) translateY(2px)}
-    .modal-select-options{display:none; position:absolute;top:100%;width:100%;z-index:10;list-style:none;margin:8px 0 10px;padding:14px 16px;border:1px solid rgba(255,255,255,.16);background:#1a1a1a}
-    .modal-select.open .modal-select-options{display:block}
-    .modal-select-options button{width:100%;background:none;border:none;text-align:left;color:#fff;font-size:18px;font-family:"Montserrat",sans-serif;padding:10px 0;cursor:pointer}
-    .modal-select-options button:hover{color:var(--accent)}
-    textarea.modal-field{min-height:140px;resize:vertical;padding-top:22px}
-    .modal-submit{margin-top:32px;width:100%;border:none;background:var(--accent);color:#000;font-family:"Montserrat",sans-serif;font-size:16px;font-weight:600;line-height:1.1;border-radius:0;padding:16px 12px;cursor:pointer;transition:.2s;max-width:420px}
-    .modal-submit:hover{filter:brightness(.96)}
-    .modal-submit-wrap{display:flex;justify-content:center}
+    .modal-select.open
+    .modal-select.open
+    textarea
 
     .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
     .reveal.visible{opacity:1;transform:translateY(0)}
@@ -223,12 +204,6 @@
       .agent-node{width:100%}
     }
     @media (max-width:640px){
-      .modal-card{padding:24px 18px 20px}
-      .modal-title{font-size:32px}
-      .modal-field{font-size:26px}
-      .modal-select-btn{font-size:26px}
-      .modal-select-options button{font-size:22px}
-      .modal-submit{font-size:15px;padding:14px 10px}
       .architecture-system{min-height:auto}
       .architecture-road{display:none}
       .architecture-agents{position:relative;display:grid;grid-template-columns:1fr;gap:14px}
@@ -346,136 +321,6 @@
       <p>Мы собрали бизнес-логику, ключевые особенности и дополнительные компоненты в три продуктовые карточки, чтобы команда работала по единому стандарту в каждом проекте.</p>
       <div class="solution-pillars">
         <article class="pillar-card"><h4>Декомпозиция клиентского запроса</h4><p>Система превращает абстрактные формулировки в конкретные сущности, цели и UX-паттерны. Это убирает размытость на старте и сокращает число уточняющих циклов с заказчиком.</p></article>
-        <article class="pillar-card"><h4>Генерация стандартизированного JSON-ТЗ</h4><p>Выходной документ содержит точные параметры интерфейса, включая анимации (stiffness, damping), структуру дизайн-системы и технические ограничения. Результат сразу совместим с рабочими инструментами команды.</p></article>
-        <article class="pillar-card"><h4>Самовалидация и итеративный аудит</h4><p>Встроенный аудитор проверяет полноту спецификации, корректность JSON и соответствие требованиям. При несоответствиях запускается автоматическая доработка без ручного перезапуска процесса.</p></article>
-      </div>
-    </article>
-
-    <section class="architecture-system reveal" aria-label="Агентная архитектура решения">
-      <div class="architecture-agents">
-        <article class="agent-node agent-node--tl"><h4>Principal Product Analyst</h4><p>Разбирает исходный запрос клиента, формирует структуру требований, сценарии использования и UX-приоритеты для следующего слоя.</p></article>
-        <article class="agent-node agent-node--tr"><h4>Principal Product Designer</h4><p>Преобразует аналитическую структуру в детализированное JSON-ТЗ: компоненты интерфейса, состояния, анимации и правила визуальной системы.</p></article>
-        <article class="agent-node agent-node--bl"><h4>Design Auditor</h4><p>Проверяет спецификацию на полноту и качество, даёт обратную связь и инициирует повторные итерации до прохождения требований.</p></article>
-        <article class="agent-node agent-node--br"><h4>Template &amp; Style Curator</h4><p>Подключает библиотеку проверенных стилевых шаблонов (Data-First Futurism, Glassmorphism Elegance, Apple Minimalist) для быстрого создания альтернативных концепций.</p></article>
-      </div>
-    </section>
-
-    <div class="block-sep"></div>
-    
-    
-    <section class="how-system-layout" aria-label="Как работает система">
-      <div class="roadmap-copy">
-        <div class="section-heading reveal" id="example"><h2>Как работает система</h2></div>
-        <p class="reveal visible">После получения брифа система проходит несколько этапов: анализ запроса, проектирование структуры спецификации, генерация JSON и автоматический аудит. Благодаря этому документация формируется в едином стандарте независимо от исполнителя.</p>
-      </div>
-
-      <div class="roadmap-vertical reveal" aria-label="Roadmap генерации дизайн-спецификации">
-        <article class="roadmap-item left">
-          <div class="roadmap-content">
-            <h4>Сбор и декомпозиция входных данных</h4>
-            <p>Система выделяет из запроса цели продукта, ограничения, целевые сценарии и ожидания по стилю интерфейса.</p>
-          </div>
-          <span class="roadmap-marker"></span>
-        </article>
-        <article class="roadmap-item right">
-          <span class="roadmap-marker"></span>
-          <div class="roadmap-content">
-            <h4>Генерация базовой структуры ТЗ</h4>
-            <p>Агент-аналитик передаёт структурированный контекст дизайнерскому агенту, который формирует каркас спецификации для интерфейса.</p>
-          </div>
-        </article>
-        <article class="roadmap-item left">
-          <div class="roadmap-content">
-            <h4>Детализация UI и анимаций</h4>
-            <p>Спецификация дополняется компонентами дизайн-системы, состояниями и параметрами motion-дизайна с точными техническими значениями.</p>
-          </div>
-          <span class="roadmap-marker"></span>
-        </article>
-        <article class="roadmap-item right">
-          <span class="roadmap-marker"></span>
-          <div class="roadmap-content">
-            <h4>Автоматическая проверка и правки</h4>
-            <p>Design Auditor оценивает полноту, валидность JSON и соответствие требованиям; при необходимости запускает повторные итерации.</p>
-          </div>
-        </article>
-        <article class="roadmap-item left">
-          <div class="roadmap-content">
-            <h4>Экспорт и интеграция в процесс</h4>
-            <p>Готовый JSON передаётся в рабочие инструменты команды, а также используется для быстрого сравнения альтернативных концепций в разных стилях.</p>
-          </div>
-          <span class="roadmap-marker"></span>
-        </article>
-      </div>
-    </section>
-
-    <div class="block-sep"></div>
-
-    <div class="section-heading reveal" id="results"><h2>Результаты</h2></div>
-    <div class="hero-results reveal" aria-label="Ключевые результаты">
-      <div class="metric-card">
-        <div class="metric-value">2 дня → 2 часа</div>
-        <div class="metric-note">Подготовка технического задания сократилась с ~2 рабочих дней до ~2 часов</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-value">30% → 10%</div>
-        <div class="metric-note">Доля времени на рутинные задачи снизилась с 30% проекта до 10%</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-value">Стандарт ТЗ</div>
-        <div class="metric-note">Качество документации перестало зависеть от конкретного менеджера или дизайнера</div>
-      </div>
-    </div>
-
-    <div class="block-sep"></div>
-
-    <div class="section-heading reveal" id="stack"><h2>Стек технологий</h2></div>
-    <div class="tech-slider reveal" aria-label="Слайдер стека">
-      <div class="tech-track" id="techTrack">
-        <span class="tech-chip">Python</span>
-        <span class="tech-chip">Flask</span>
-        <span class="tech-chip">Google Generative AI SDK</span>
-        <span class="tech-chip">Gemini (gemma-3-27b-it)</span>
-        <span class="tech-chip">Multi-Agent Orchestration</span>
-        <span class="tech-chip">JSON Schema Validation</span>
-        <span class="tech-chip">Retry &amp; Feedback Loop</span>
-        <span class="tech-chip">Prompt Template Library</span>
-      </div>
-    </div>
-
-    <div class="cta-wrap reveal" id="cta">
-      <h3>Обсудим ваш документооборот и подготовку ТЗ</h3>
-      <p>Покажем, как автоматизировать подготовку спецификаций, стандартизировать качество документов и ускорить запуск новых проектов без расширения штата.</p>
-      <a href="#" class="cta-btn" id="openBriefBtn">Запросить аудит документации</a>
-    </div>
-  </article>
-
-      <div class="modal-select" data-select="team_size">
-        <button class="modal-select-btn" type="button">Размер команды</button>
-        <ul class="modal-select-options">
-          <li><button type="button" data-value="1-10">1-10</button></li>
-          <li><button type="button" data-value="11-50">11-50</button></li>
-          <li><button type="button" data-value="51-200">51-200</button></li>
-          <li><button type="button" data-value="200+">200+</button></li>
-        </ul>
-        <input type="hidden" name="team_size"/>
-      </div>
-
-      <div class="modal-select" data-select="budget">
-        <button class="modal-select-btn" type="button">Бюджет</button>
-        <ul class="modal-select-options">
-          <li><button type="button" data-value="До 300 000 ₽">До 300 000 ₽</button></li>
-          <li><button type="button" data-value="300 000 - 1 000 000 ₽">300 000 - 1 000 000 ₽</button></li>
-          <li><button type="button" data-value="1 000 000 - 3 000 000 ₽">1 000 000 - 3 000 000 ₽</button></li>
-          <li><button type="button" data-value="Более 3 000 000 ₽">Более 3 000 000 ₽</button></li>
-        </ul>
-        <input type="hidden" name="budget"/>
-      </div>
-
-      <textarea class="modal-field" name="task" placeholder="Опишите вашу задачу"></textarea>
-      <input class="modal-field" type="text" name="contact" placeholder="Ваш контакт (@telegram_id / +7 (999) 123-45-67)"/>
-      <div class="modal-submit-wrap"><button class="modal-submit" type="submit">Отправить заявку</button></div>
-    </form>
-  </div>
 
 <footer class="site-footer">
   <div class="footer-inner">
