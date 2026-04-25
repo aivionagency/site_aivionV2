@@ -159,7 +159,7 @@
 
   <header id="hdr">
     <div class="header-top">
-      <a class="header-logo" href="Aivion.html">Aivion</a>
+      <a class="header-logo" href="index.html">Aivion</a>
       <nav class="header-nav" aria-label="Навигация по кейсу">
         <a class="nav-link" href="#problem">Проблема</a>
         <a class="nav-link" href="#solution">Решение</a>
@@ -181,7 +181,7 @@
   </div>
 
   <div class="case-hero warm-section">
-    <div class="hero-top-actions"><a class="cases-btn" href="Aivion.html#portfolio">← Другие кейсы</a></div>
+    <div class="hero-top-actions"><a class="cases-btn" href="index.html#portfolio">← Другие кейсы</a></div>
     <h1 class="case-title reveal">Среда для тестирования <br> промптов <span class="hi">локальных LLM</span></h1>
     <p class="case-lead reveal">R&amp;D-отдел маркетингового агентства уже использовал локальные модели в копирайтинге и аналитике, но работа через терминал занимала слишком много ручных шагов. Команда теряла скорость, а нетехнические специалисты постоянно зависели от разработчиков.</p>
   </div>
@@ -291,24 +291,6 @@
       <a href="#" class="cta-btn" id="openBriefBtn">Запросить AI-аудит</a>
     </div>
   </article>
-
-  <div class="modal-overlay" id="briefModal" role="dialog" aria-modal="true" aria-labelledby="briefTitle">
-    <form class="modal-card">
-      <button class="modal-close" id="closeBriefBtn" aria-label="Закрыть форму" type="button">×</button>
-      <h2 class="modal-title" id="briefTitle">Обсудить проект</h2>
-      <input class="modal-field" type="text" name="name" placeholder="Ваше имя"/>
-      <input class="modal-field" type="text" name="company" placeholder="Название компании"/>
-      <div class="modal-select" data-select="role">
-        <button class="modal-select-btn" type="button">Позиция в компании</button>
-        <ul class="modal-select-options">
-          <li><button type="button" data-value="CEO / Founder">CEO / Founder</button></li>
-          <li><button type="button" data-value="CTO">CTO</button></li>
-          <li><button type="button" data-value="Product Manager">Product Manager</button></li>
-          <li><button type="button" data-value="Marketing Director">Marketing Director</button></li>
-          <li><button type="button" data-value="Другое">Другое</button></li>
-        </ul>
-        <input type="hidden" name="role"/>
-      </div>
       <div class="modal-select" data-select="team_size">
         <button class="modal-select-btn" type="button">Размер команды</button>
         <ul class="modal-select-options">
@@ -501,5 +483,6 @@
       requestAnimationFrame(tick);
     })();
   </script>
+  <script src="contact-form.js"></script>
 </body>
 </html>
