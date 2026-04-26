@@ -127,9 +127,6 @@
     .cta-wrap p{max-width:640px;margin:0 auto 20px;color:var(--muted)}
     .cta-btn{display:inline-block;padding:13px 26px;border-radius:999px;background:var(--accent);color:#000;font-weight:700;text-decoration:none;font-family:"Montserrat",sans-serif;transition:.2s}
     .cta-btn:hover{transform:translateY(-2px);box-shadow:0 0 22px var(--accent-glow)}
-    .modal-select.open
-    .modal-select.open
-    textarea
     .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
     .reveal.visible{opacity:1;transform:translateY(0)}
 
@@ -252,6 +249,92 @@
         <h3>Гибкое управление проектами</h3>
         <p>Трекинг прогресса строится на Milestones, приоритеты подсвечиваются визуально, а просроченные дедлайны автоматически выделяются для быстрого реагирования.</p>
       </article>
+      <article class="solution-card">
+        <h3>Автоматические бэкапы</h3>
+        <p>APScheduler запускает ночные резервные копии активных проектов по расписанию, а также поддерживает ручные снапшоты перед критичными изменениями.</p>
+      </article>
+      <article class="solution-card">
+        <h3>Проверка целостности</h3>
+        <p>Каждый ZIP-архив сопровождается `metadata.json` и `SHA-256 checksum`, что позволяет быстро проверить корректность хранения и исключить повреждения данных.</p>
+      </article>
+      <article class="solution-card">
+        <h3>RBAC и аудит действий</h3>
+        <p>Ролевая модель ограничивает доступ по зонам ответственности, а Audit Log фиксирует входы, скачивания и административные операции с IP и User-Agent.</p>
+      </article>
+    </div>
+
+    <div class="architecture-system reveal" aria-label="Архитектура PBMS">
+      <div class="architecture-agents">
+        <article class="agent-node"><h4>Project Hub</h4><p>Централизует проекты, этапы и задачи: от старта до архивирования, включая приоритеты, дедлайны и связанный контекст команды.</p></article>
+        <article class="agent-node"><h4>Backup Engine</h4><p>Формирует nightly-бэкапы и ручные snapshot-архивы, управляет расписанием и обеспечивает единый поток резервирования для всех активных проектов.</p></article>
+        <article class="agent-node"><h4>Integrity Guard</h4><p>Вычисляет SHA-256, создаёт `metadata.json` и валидирует архивы до скачивания и восстановления, чтобы минимизировать риск битых копий.</p></article>
+        <article class="agent-node"><h4>Access &amp; Audit Layer</h4><p>Контролирует RBAC-права и ведёт журнал действий для расследования инцидентов и проверки соблюдения регламентов.</p></article>
+      </div>
+    </div>
+    <p class="reveal visible">Такой контур дал компании <span class="accent-yellow">одновременно прозрачность процессов и контроль за сохранностью данных</span>.</p>
+
+    <div class="block-sep"></div>
+
+    <section class="how-system-layout" aria-label="Как работает система">
+      <div class="roadmap-copy">
+        <div class="section-heading reveal" id="example"><h2>Как работает система</h2></div>
+        <p class="reveal visible">После внедрения PBMS команда работает в едином цикле: постановка и отслеживание задач, автоматический ночной бэкап, проверка целостности и контроль действий пользователей через Audit Log.</p>
+      </div>
+      <div class="roadmap-vertical reveal" aria-label="Roadmap работы PBMS">
+        <article class="roadmap-item left">
+          <div class="roadmap-content"><h4>Постановка и декомпозиция задач</h4><p>Проект создаётся в едином реестре: фиксируются сроки, Milestones, приоритеты и ответственные, чтобы исключить разрывы в коммуникации.</p></div>
+          <span class="roadmap-marker"></span>
+        </article>
+        <article class="roadmap-item right">
+          <span class="roadmap-marker"></span>
+          <div class="roadmap-content"><h4>Плановые ночные бэкапы</h4><p>BackgroundScheduler по Cron запускает резервирование активных проектов без ручного вмешательства администраторов.</p></div>
+        </article>
+        <article class="roadmap-item left">
+          <div class="roadmap-content"><h4>Проверка целостности архивов</h4><p>Для каждого архива формируются `metadata.json` и `SHA-256 checksum`, чтобы контролировать корректность хранения и передачи копий.</p></div>
+          <span class="roadmap-marker"></span>
+        </article>
+        <article class="roadmap-item right">
+          <span class="roadmap-marker"></span>
+          <div class="roadmap-content"><h4>Ролевой доступ и аудит событий</h4><p>RBAC ограничивает операции по ролям, а журнал аудита фиксирует критичные действия пользователей с техническими метаданными.</p></div>
+        </article>
+        <article class="roadmap-item left">
+          <div class="roadmap-content"><h4>Быстрое восстановление и контроль</h4><p>Команда может восстановить проект из последней валидной копии и быстро провести внутреннюю проверку по истории действий и статусам.</p></div>
+          <span class="roadmap-marker"></span>
+        </article>
+      </div>
+    </section>
+
+    <div class="block-sep"></div>
+
+    <div class="section-heading reveal" id="results"><h2>Результаты</h2></div>
+    <div class="hero-results reveal" aria-label="Ключевые результаты">
+      <div class="metric-card"><div class="metric-value">Без потери данных</div><div class="metric-note">После запуска nightly-бэкапов были исключены инциденты утраты проектных файлов в рабочем контуре.</div></div>
+      <div class="metric-card"><div class="metric-value">Прозрачность</div><div class="metric-note">Руководители получили сквозную видимость статусов, приоритетов и действий сотрудников в одной панели.</div></div>
+      <div class="metric-card"><div class="metric-value">Быстрый поиск</div><div class="metric-note">Единый контур проекта сократил время на поиск документации и связанных артефактов.</div></div>
+    </div>
+
+    <div class="block-sep"></div>
+
+    <div class="section-heading reveal" id="stack"><h2>Стек технологий</h2></div>
+    <div class="tech-slider reveal" aria-label="Слайдер стека">
+      <div class="tech-track" id="techTrack">
+        <span class="tech-chip">Python</span>
+        <span class="tech-chip">Flask</span>
+        <span class="tech-chip">SQLAlchemy</span>
+        <span class="tech-chip">APScheduler</span>
+        <span class="tech-chip">RBAC</span>
+        <span class="tech-chip">SHA-256 Integrity Check</span>
+        <span class="tech-chip">Quill.js</span>
+        <span class="tech-chip">SQLite / PostgreSQL-ready</span>
+      </div>
+    </div>
+
+    <div class="cta-wrap reveal" id="cta">
+      <h3>Обсудим внедрение корпоративной PBMS-системы</h3>
+      <p>Покажем, как объединить управление проектами, защиту данных и аудит действий в одном безопасном интерфейсе под задачи вашей команды.</p>
+      <a href="#" class="cta-btn" id="openBriefBtn">Запросить архитектуру PBMS</a>
+    </div>
+  </article>
 
 <footer class="site-footer">
   <div class="footer-inner">

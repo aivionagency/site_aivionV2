@@ -200,10 +200,6 @@
     .cta-wrap p{max-width:640px;margin:0 auto 20px;color:var(--muted)}
     .cta-btn{display:inline-block;padding:13px 26px;border-radius:999px;background:var(--accent);color:#000;font-weight:700;text-decoration:none;font-family:"Montserrat",sans-serif;transition:.2s}
     .cta-btn:hover{transform:translateY(-2px);box-shadow:0 0 22px var(--accent-glow)}
-    .modal-select.open
-    .modal-select.open
-    textarea
-
     .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
     .reveal.visible{opacity:1;transform:translateY(0)}
 
@@ -354,6 +350,101 @@
     <div class="architecture-system reveal" aria-label="Диаграмма мультиагентной архитектуры">
       <div class="architecture-agents">
         <article class="agent-node agent-node--tl"><h4>Агент-планировщик</h4><p>Формирует структуру поста, ключевые мысли и формат подачи. На выходе создаёт бриф, а не черновой текст.</p></article>
+        <article class="agent-node agent-node--bl"><h4>Агент-копирайтер</h4><p>Пишет текст строго по брифу и не отвлекается на структуру или форматирование, что даёт более чистый и точный контент.</p></article>
+        <article class="agent-node agent-node--tr"><h4>Агент-форматировщик</h4><p>Адаптирует материал под Telegram: абзацы, эмодзи и CTA. Работает только с формой, не меняя смысл сообщения.</p></article>
+        <article class="agent-node agent-node--br"><h4>Агент-редактор</h4><p>Проверяет грамотность, выравнивает стиль и контролирует tone of voice перед финальной выдачей в публикацию.</p></article>
+      </div>
+    </div>
+    <p class="reveal visible">Это устраняет перегрузку одного специалиста и формирует <span class="accent-yellow">предсказуемое качество результата</span>.</p>
+
+    <div class="block-sep"></div>
+    
+    
+    <section class="how-system-layout" aria-label="Как работает система">
+      <div class="roadmap-copy">
+        <div class="section-heading reveal" id="example"><h2>Как работает система</h2></div>
+        <p class="reveal visible">Менеджер открывает систему и вводит параметры: <br>Целевая удитория — начинающие предприниматели, <br>Цель — заинтересовать в покупке его Telegram-бота, <br>Тезисы — ["вы теряете до 40% прибыли на логистике", "автоматизация через Telegram упрощает управление заказами", ...] </p>
+      </div>
+
+      <div class="roadmap-vertical reveal" aria-label="Roadmap создания поста">
+        <article class="roadmap-item left">
+          <div class="roadmap-content">
+            <h4>Формирование брифа</h4>
+            <p>Планировщик создаёт заголовок и структуру поста: проблема, последствия, решение и призыв к действию.</p>
+          </div>
+          <span class="roadmap-marker"></span>
+        </article>
+        <article class="roadmap-item right">
+          <span class="roadmap-marker"></span>
+          <div class="roadmap-content">
+            <h4>Написание текста</h4>
+            <p>Копирайтер генерирует основной текст строго по утверждённой структуре без отклонений от брифа.</p>
+          </div>
+        </article>
+        <article class="roadmap-item left">
+          <div class="roadmap-content">
+            <h4>Telegram-адаптация</h4>
+            <p>Форматировщик подготавливает пост для публикации: разбивает блоки, добавляет визуальные акценты и CTA.</p>
+          </div>
+          <span class="roadmap-marker"></span>
+        </article>
+        <article class="roadmap-item right">
+          <span class="roadmap-marker"></span>
+          <div class="roadmap-content">
+            <h4>Финальная редактура</h4>
+            <p>Редактор исправляет ошибки, проверяет единый стиль и финализирует пост к отправке менеджеру.</p>
+          </div>
+        </article>
+        <article class="roadmap-item left">
+          <div class="roadmap-content">
+            <h4>Публикация</h4>
+            <p>Готовый пост поступает менеджеру на быстрый контроль и после подтверждения публикуется в нужном канале.</p>
+          </div>
+          <span class="roadmap-marker"></span>
+        </article>
+      </div>
+    </section>
+
+    <div class="block-sep"></div>
+
+    <div class="section-heading reveal" id="results"><h2>Результаты</h2></div>
+    <div class="hero-results reveal" aria-label="Ключевые результаты">
+      <div class="metric-card">
+        <div class="metric-value">x10 Скорость</div>
+        <div class="metric-note">Написание поста теперь занимает 5 минут вместо 50</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">−80% рутины</div>
+        <div class="metric-note">Перенесли роль специалиста в контроль качества</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">x1.3 ERR</div>
+        <div class="metric-note">Рост вовлеченности благодаря повышению качества</div>
+      </div>
+    </div>
+
+    <div class="block-sep"></div>
+
+    <div class="section-heading reveal" id="stack"><h2>Стек технологий</h2></div>
+    <div class="tech-slider reveal" aria-label="Слайдер стека">
+      <div class="tech-track" id="techTrack">
+        <span class="tech-chip">Python</span>
+        <span class="tech-chip">LangChain</span>
+        <span class="tech-chip">OpenAI API</span>
+        <span class="tech-chip">FastAPI</span>
+        <span class="tech-chip">PostgreSQL</span>
+        <span class="tech-chip">Telegram Bot API</span>
+        <span class="tech-chip">n8n</span>
+        <span class="tech-chip">Redis</span>
+      </div>
+    </div>
+
+    <div class="cta-wrap reveal" id="cta">
+      <h3>Обсудим вашу SMM-задачу</h3>
+      <p>Покажем, как выстроить мультиагентный конвейер для контента, сократить время выпуска постов и масштабировать каналы без расширения команды.</p>
+      <a href="#" class="cta-btn" id="openBriefBtn" data-open-brief>Запросить разбор</a>
+    </div>
+  </article>
 
 <footer class="site-footer">
   <div class="footer-inner">

@@ -164,10 +164,6 @@
     .cta-wrap p{max-width:640px;margin:0 auto 20px;color:var(--muted)}
     .cta-btn{display:inline-block;padding:13px 26px;border-radius:999px;background:var(--accent);color:#000;font-weight:700;text-decoration:none;font-family:"Montserrat",sans-serif;transition:.2s}
     .cta-btn:hover{transform:translateY(-2px);box-shadow:0 0 22px var(--accent-glow)}
-    .modal-select.open
-    .modal-select.open
-    textarea
-
     .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
     .reveal.visible{opacity:1;transform:translateY(0)}
 
@@ -321,6 +317,108 @@
       <p>Мы собрали бизнес-логику, ключевые особенности и дополнительные компоненты в три продуктовые карточки, чтобы команда работала по единому стандарту в каждом проекте.</p>
       <div class="solution-pillars">
         <article class="pillar-card"><h4>Декомпозиция клиентского запроса</h4><p>Система превращает абстрактные формулировки в конкретные сущности, цели и UX-паттерны. Это убирает размытость на старте и сокращает число уточняющих циклов с заказчиком.</p></article>
+        <article class="pillar-card"><h4>Генерация стандартизированного JSON-ТЗ</h4><p>Выходной документ содержит точные параметры интерфейса, включая анимации (stiffness, damping), структуру дизайн-системы и технические ограничения. Результат сразу совместим с рабочими инструментами команды.</p></article>
+        <article class="pillar-card"><h4>Самовалидация и итеративный аудит</h4><p>Встроенный аудитор проверяет полноту спецификации, корректность JSON и соответствие требованиям. При несоответствиях запускается автоматическая доработка без ручного перезапуска процесса.</p></article>
+      </div>
+    </article>
+
+    <section class="architecture-system reveal" aria-label="Агентная архитектура решения">
+      <div class="architecture-agents">
+        <article class="agent-node agent-node--tl"><h4>Principal Product Analyst</h4><p>Разбирает исходный запрос клиента, формирует структуру требований, сценарии использования и UX-приоритеты для следующего слоя.</p></article>
+        <article class="agent-node agent-node--tr"><h4>Principal Product Designer</h4><p>Преобразует аналитическую структуру в детализированное JSON-ТЗ: компоненты интерфейса, состояния, анимации и правила визуальной системы.</p></article>
+        <article class="agent-node agent-node--bl"><h4>Design Auditor</h4><p>Проверяет спецификацию на полноту и качество, даёт обратную связь и инициирует повторные итерации до прохождения требований.</p></article>
+        <article class="agent-node agent-node--br"><h4>Template &amp; Style Curator</h4><p>Подключает библиотеку проверенных стилевых шаблонов (Data-First Futurism, Glassmorphism Elegance, Apple Minimalist) для быстрого создания альтернативных концепций.</p></article>
+      </div>
+    </section>
+
+    <div class="block-sep"></div>
+    
+    
+    <section class="how-system-layout" aria-label="Как работает система">
+      <div class="roadmap-copy">
+        <div class="section-heading reveal" id="example"><h2>Как работает система</h2></div>
+        <p class="reveal visible">После получения брифа система проходит несколько этапов: анализ запроса, проектирование структуры спецификации, генерация JSON и автоматический аудит. Благодаря этому документация формируется в едином стандарте независимо от исполнителя.</p>
+      </div>
+
+      <div class="roadmap-vertical reveal" aria-label="Roadmap генерации дизайн-спецификации">
+        <article class="roadmap-item left">
+          <div class="roadmap-content">
+            <h4>Сбор и декомпозиция входных данных</h4>
+            <p>Система выделяет из запроса цели продукта, ограничения, целевые сценарии и ожидания по стилю интерфейса.</p>
+          </div>
+          <span class="roadmap-marker"></span>
+        </article>
+        <article class="roadmap-item right">
+          <span class="roadmap-marker"></span>
+          <div class="roadmap-content">
+            <h4>Генерация базовой структуры ТЗ</h4>
+            <p>Агент-аналитик передаёт структурированный контекст дизайнерскому агенту, который формирует каркас спецификации для интерфейса.</p>
+          </div>
+        </article>
+        <article class="roadmap-item left">
+          <div class="roadmap-content">
+            <h4>Детализация UI и анимаций</h4>
+            <p>Спецификация дополняется компонентами дизайн-системы, состояниями и параметрами motion-дизайна с точными техническими значениями.</p>
+          </div>
+          <span class="roadmap-marker"></span>
+        </article>
+        <article class="roadmap-item right">
+          <span class="roadmap-marker"></span>
+          <div class="roadmap-content">
+            <h4>Автоматическая проверка и правки</h4>
+            <p>Design Auditor оценивает полноту, валидность JSON и соответствие требованиям; при необходимости запускает повторные итерации.</p>
+          </div>
+        </article>
+        <article class="roadmap-item left">
+          <div class="roadmap-content">
+            <h4>Экспорт и интеграция в процесс</h4>
+            <p>Готовый JSON передаётся в рабочие инструменты команды, а также используется для быстрого сравнения альтернативных концепций в разных стилях.</p>
+          </div>
+          <span class="roadmap-marker"></span>
+        </article>
+      </div>
+    </section>
+
+    <div class="block-sep"></div>
+
+    <div class="section-heading reveal" id="results"><h2>Результаты</h2></div>
+    <div class="hero-results reveal" aria-label="Ключевые результаты">
+      <div class="metric-card">
+        <div class="metric-value">2 дня → 2 часа</div>
+        <div class="metric-note">Подготовка технического задания сократилась с ~2 рабочих дней до ~2 часов</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">30% → 10%</div>
+        <div class="metric-note">Доля времени на рутинные задачи снизилась с 30% проекта до 10%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">Стандарт ТЗ</div>
+        <div class="metric-note">Качество документации перестало зависеть от конкретного менеджера или дизайнера</div>
+      </div>
+    </div>
+
+    <div class="block-sep"></div>
+
+    <div class="section-heading reveal" id="stack"><h2>Стек технологий</h2></div>
+    <div class="tech-slider reveal" aria-label="Слайдер стека">
+      <div class="tech-track" id="techTrack">
+        <span class="tech-chip">Python</span>
+        <span class="tech-chip">Flask</span>
+        <span class="tech-chip">Google Generative AI SDK</span>
+        <span class="tech-chip">Gemini (gemma-3-27b-it)</span>
+        <span class="tech-chip">Multi-Agent Orchestration</span>
+        <span class="tech-chip">JSON Schema Validation</span>
+        <span class="tech-chip">Retry &amp; Feedback Loop</span>
+        <span class="tech-chip">Prompt Template Library</span>
+      </div>
+    </div>
+
+    <div class="cta-wrap reveal" id="cta">
+      <h3>Обсудим ваш документооборот и подготовку ТЗ</h3>
+      <p>Покажем, как автоматизировать подготовку спецификаций, стандартизировать качество документов и ускорить запуск новых проектов без расширения штата.</p>
+      <a href="#" class="cta-btn" id="openBriefBtn">Запросить аудит документации</a>
+    </div>
+  </article>
 
 <footer class="site-footer">
   <div class="footer-inner">
