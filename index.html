@@ -122,10 +122,37 @@
     .mobile-nav a:hover { color:var(--text); }
     .mobile-nav .nav-cta { color:#1a0800 !important; font-size:14px; }
 
+    /* Ваш текущий блок остается для планшетов */
     @media (max-width:860px) {
       nav { display:none; }
       .menu-toggle { display:flex; }
       .mobile-menu { display:flex; }
+    }
+
+    /* НОВЫЙ БЛОК: Оптимизация специально для смартфонов */
+    @media (max-width:600px) {
+      /* 1. Отключаем тяжелую зернистость, чтобы скролл не дергался */
+      body::after { display: none !important; }
+
+      /* 2. Убираем размытие (blur), заменяя его на плотный фон */
+      header.scrolled::before, .glass-card {
+        backdrop-filter: none !important;
+        background: rgba(0, 0, 0, 0.95) !important;
+      }
+
+      /* 3. Отключаем "залипание" карточек портфолио — на телефоне это неудобно */
+      .portfolio-card {
+        position: relative !important;
+        top: 0 !important;
+        margin-bottom: 20px !important;
+        transform: none !important; /* Убираем масштабирование при скролле */
+        filter: none !important;    /* Убираем изменение яркости */
+      }
+
+      /* 4. Увеличиваем шрифт в полях, чтобы iPhone не "зумил" экран при вводе */
+      .field input, .field select, .field textarea {
+        font-size: 16px !important;
+      }
     }
 
     /* ═══ OPENING SCREEN ════════════════════════════════════ */
@@ -1278,16 +1305,47 @@ mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => 
   const ctx=canvas.getContext('2d',{alpha:true});
   let W=0,H=0,pts=[],fields=[];
   function build(){
-    const dpr=Math.min(window.devicePixelRatio||1,1.5);
-    const rect=canvas.parentElement.getBoundingClientRect();
-    W=Math.max(320,Math.round(rect.width)); H=Math.max(320,Math.round(rect.height));
-    canvas.width=W*dpr; canvas.height=H*dpr;
-    canvas.style.width=W+'px'; canvas.style.height=H+'px';
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    const mg=Math.max(28,Math.min(W,H)*0.08);
-    const n=Math.max(140,Math.round(W*H/3200));
-    pts=Array.from({length:n},()=>({x:mg+Math.random()*(W-mg*2),y:mg+Math.random()*(H-mg*2),seed:Math.random()*Math.PI*2}));
-    fields=Array.from({length:5},()=>({x:mg+Math.random()*(W-mg*2),y:mg+Math.random()*(H-mg*2),vx:(Math.random()-0.5)*0.14,vy:(Math.random()-0.5)*0.10,radius:Math.max(160,Math.min(W,H)*(0.13+Math.random()*0.09)),sx:0.8+Math.random()*0.6,sy:0.8+Math.random()*0.6,phase:Math.random()*Math.PI*2}));
+  // Проверяем, мобильный ли это экран (меньше 768px)
+  const isMobile = window.innerWidth < 768;
+
+  // На мобильных ставим dpr=1, на ПК оставляем до 1.5 для четкости
+  const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
+
+  const rect = canvas.parentElement.getBoundingClientRect();
+  W = Math.max(320, Math.round(rect.width));
+  H = Math.max(320, Math.round(rect.height));
+
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const mg = Math.max(28, Math.min(W, H) * 0.08);
+
+  // ОПТИМИЗАЦИЯ:
+  // Если мобильный — берем n=60, если ПК — n=140 (или расчет по формуле)
+  const n = isMobile ? 60 : Math.max(140, Math.round(W * H / 3200));
+
+  pts = Array.from({length: n}, () => ({
+    x: mg + Math.random() * (W - mg * 2),
+    y: mg + Math.random() * (H - mg * 2),
+    seed: Math.random() * Math.PI * 2
+  }));
+
+  // На мобильных уменьшаем количество силовых полей с 5 до 2
+  const fieldCount = isMobile ? 2 : 5;
+
+  fields = Array.from({length: fieldCount}, () => ({
+    x: mg + Math.random() * (W - mg * 2),
+    y: mg + Math.random() * (H - mg * 2),
+    vx: (Math.random() - 0.5) * 0.14,
+    vy: (Math.random() - 0.5) * 0.10,
+    radius: Math.max(160, Math.min(W, H) * (0.13 + Math.random() * 0.09)),
+    sx: 0.8 + Math.random() * 0.6,
+    sy: 0.8 + Math.random() * 0.6,
+    phase: Math.random() * Math.PI * 2
+  }));
   }
   function frame(t){
     ctx.clearRect(0,0,W,H);
