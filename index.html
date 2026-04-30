@@ -122,39 +122,24 @@
     .mobile-nav a:hover { color:var(--text); }
     .mobile-nav .nav-cta { color:#1a0800 !important; font-size:14px; }
 
-    /* Ваш текущий блок остается для планшетов */
-    @media (max-width:860px) {
-      nav { display:none; }
-      .menu-toggle { display:flex; }
-      .mobile-menu { display:flex; }
-    }
-
-    /* НОВЫЙ БЛОК: Оптимизация специально для смартфонов */
     @media (max-width:600px) {
-      /* 1. Отключаем тяжелую зернистость, чтобы скролл не дергался */
       body::after { display: none !important; }
 
-      /* 2. Убираем размытие (blur), заменяя его на плотный фон */
       header.scrolled::before, .glass-card {
         backdrop-filter: none !important;
-        background: rgba(0, 0, 0, 0.95) !important;
+        background: rgba(10, 5, 0, 0.95) !important;
       }
 
-      /* 3. Отключаем "залипание" карточек портфолио — на телефоне это неудобно */
+      /* Вместо удаления стекинга, мы просто уменьшаем отступы сверху, */
+      /* чтобы карточки не перекрывали друг друга слишком сильно на маленьком экране */
       .portfolio-card {
-        position: relative !important;
-        top: 0 !important;
-        margin-bottom: 20px !important;
-        transform: none !important; /* Убираем масштабирование при скролле */
-        filter: none !important;    /* Убираем изменение яркости */
+        margin-bottom: 24px !important;
       }
 
-      /* 4. Увеличиваем шрифт в полях, чтобы iPhone не "зумил" экран при вводе */
       .field input, .field select, .field textarea {
         font-size: 16px !important;
       }
     }
-
     /* ═══ OPENING SCREEN ════════════════════════════════════ */
     .opening-screen {
       position:relative; min-height:100svh;
@@ -1479,57 +1464,66 @@ createDotGrid(document.getElementById('servicesDotGrid'));
   update();
 })();
 
-/* ═══ PORTFOLIO STACKING CARDS ═════════════════════════════ */
+/* ═══ PORTFOLIO STACKING CARDS (ADAPTIVE VERSION) ═════════════════════════════ */
 (function() {
   const stack = document.getElementById('portfolioStack');
   if(!stack) return;
   const cards = Array.from(stack.querySelectorAll('.portfolio-card'));
-  const HEADER = 80;
-  const GAP = 18;
-  // Set sticky top and z-index for each card
+
+  // Адаптивные константы
+  const isMobile = window.innerWidth < 768;
+  const HEADER = isMobile ? 60 : 80; // Меньший отступ для мобильных
+  const GAP = isMobile ? 12 : 18;    // Плотнее прилегание карточек
+
   cards.forEach((card, i) => {
     card.style.top = (HEADER + i * GAP) + 'px';
     card.style.zIndex = i + 1;
-    card.style.marginBottom = '14px';
   });
 
   function clamp(v,a,b){return Math.min(Math.max(v,a),b);}
-  function ease(v){return v<0.5?4*v*v*v:1-Math.pow(-2*v+2,3)/2;}
 
   function update() {
-    const wh = window.innerHeight;
     cards.forEach((card, i) => {
       const rect = card.getBoundingClientRect();
       const stickyTop = HEADER + i * GAP;
-      // How much is this card "buried" under subsequent cards?
-      const distFromSticky = rect.top - stickyTop;
-      // If card is at its sticky position and more cards are on top, scale it down
-      const isStuck = distFromSticky <= 1;
-      const cardsOnTop = isStuck ? cards.length - 1 - i : 0;
-      
-      // Check how many later cards are also at sticky position
+      const isStuck = rect.top - stickyTop <= 2;
+
       let burial = 0;
       if (isStuck) {
         for (let j = i + 1; j < cards.length; j++) {
           const jRect = cards[j].getBoundingClientRect();
           const jSticky = HEADER + j * GAP;
-          if (jRect.top - jSticky <= 2) burial++;
+          if (jRect.top - jSticky <= 5) burial++;
         }
       }
-      
+
       const maxBurial = cards.length - 1;
-      const burialRatio = clamp(burial / (maxBurial * 0.6), 0, 1);
-      const scale = 1 - burialRatio * 0.04;
-      const brightness = 1 - burialRatio * 0.35;
-      
+      const burialRatio = clamp(burial / (maxBurial * 0.7), 0, 1);
+
+      // Эффект масштаба оставляем, но делаем его чуть мягче
+      const scale = 1 - burialRatio * (isMobile ? 0.03 : 0.04);
       card.style.transform = `scale(${scale.toFixed(4)})`;
-      card.style.filter = `brightness(${brightness.toFixed(3)})`;
+
+      // ГЛАВНАЯ ОПТИМИЗАЦИЯ:
+      if (isMobile) {
+        // На мобильных плавно меняем прозрачность (это быстро)
+        card.style.opacity = (1 - burialRatio * 0.4).toFixed(3);
+        card.style.filter = 'none';
+      } else {
+        // На ПК оставляем красивое затемнение (brightness)
+        const brightness = 1 - burialRatio * 0.35;
+        card.style.filter = `brightness(${brightness.toFixed(3)})`;
+        card.style.opacity = '1';
+      }
     });
   }
 
   let ticking = false;
   window.addEventListener('scroll', () => {
-    if(!ticking){ticking=true;requestAnimationFrame(()=>{ticking=false;update();});}
+    if(!ticking){
+      ticking=true;
+      requestAnimationFrame(()=>{ticking=false; update();});
+    }
   },{passive:true});
   update();
 })();
