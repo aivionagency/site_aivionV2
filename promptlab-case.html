@@ -123,7 +123,21 @@
     .reveal.visible{opacity:1;transform:translateY(0)}
     @media (min-width:901px){.how-system-layout{display:grid;grid-template-columns:minmax(300px,380px) minmax(0,1fr);gap:42px;align-items:start}.how-system-layout .section-heading{margin:0 0 18px}.how-system-layout .roadmap-vertical{margin-top:0}}
     @media (max-width:900px){body::after{opacity:.02}.page-bg{background:#020202}.grid-base,.grid-reveal{display:none}.bg-orb{animation:none;filter:blur(70px)}.bg-orb--gold,.bg-orb--amber,.bg-orb--sun{opacity:.25}.light-source--top-right{right:-26%;top:-24%;width:76%;height:76%;opacity:.72}.light-source--hero-focus{left:-24%;bottom:-24%;width:82%;height:82%;filter:blur(86px);opacity:.74}.hero-results,.solution-grid,.architecture-agents{grid-template-columns:1fr}.header-nav{display:none}.nav-toggle{display:flex}.mobile-menu{display:flex}.case-hero{padding-top:145px}.roadmap-vertical{gap:22px}.roadmap-vertical::before{left:18px;transform:none}.roadmap-item{grid-template-columns:36px 1fr;min-height:auto;align-items:flex-start;gap:14px}.roadmap-content{max-width:none}.roadmap-item.left .roadmap-content,.roadmap-item.right .roadmap-content{grid-column:2;justify-self:start;text-align:left;padding:0}.roadmap-marker{grid-column:1;justify-self:center;width:24px;height:24px;box-shadow:0 0 0 5px rgba(var(--accent-rgb),.08);margin-top:4px}}
-    @media (max-width:640px){}
+    /* Этот класс блокирует скролл страницы */
+    .lock-scroll {
+      overflow: hidden !important;
+      height: 100vh !important;
+      position: fixed !important;
+      width: 100% !important;
+    }
+
+    /* Оптимизация меню для мобильных */
+    @media (max-width: 640px) {
+      .mobile-menu {
+        backdrop-filter: none !important; /* Убираем тяжелый блюр для плавности */
+        background: rgba(2, 2, 2, 0.98) !important;
+      }
+    }
 
     .site-footer{border-top:1px solid rgba(255,255,255,0.18);padding:64px 0 36px;position:relative;z-index:2;background:rgba(0,0,0,0.98)}
     .footer-inner{width:min(100% - 32px,1240px);margin:0 auto}
@@ -352,6 +366,13 @@
       mobileMenu.classList.toggle('open', willOpen);
       menuToggle.classList.toggle('is-open', willOpen);
       menuToggle.setAttribute('aria-expanded', String(willOpen));
+
+      // Добавляем или убираем блокировку скролла
+      if (willOpen) {
+        document.body.classList.add('lock-scroll');
+      } else {
+        document.body.classList.remove('lock-scroll');
+      }
     });
     function closeBriefModal() {
       if (!briefModal) return;

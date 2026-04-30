@@ -199,11 +199,20 @@
       .mode-grid,.solution-pillars{grid-template-columns:1fr}
       .agent-node{width:100%}
     }
-    @media (max-width:640px){
-      .architecture-system{min-height:auto}
-      .architecture-road{display:none}
-      .architecture-agents{position:relative;display:grid;grid-template-columns:1fr;gap:14px}
-      .agent-node{position:relative;width:100%;left:auto;right:auto;top:auto;bottom:auto;margin:0;opacity:1;transform:none}
+    /* Этот класс блокирует скролл страницы */
+    .lock-scroll {
+      overflow: hidden !important;
+      height: 100vh !important;
+      position: fixed !important;
+      width: 100% !important;
+    }
+
+    /* Оптимизация меню для мобильных */
+    @media (max-width: 640px) {
+      .mobile-menu {
+        backdrop-filter: none !important; /* Убираем тяжелый блюр для плавности */
+        background: rgba(2, 2, 2, 0.98) !important;
+      }
     }
 
     .site-footer{border-top:1px solid rgba(255,255,255,0.18);padding:64px 0 36px;position:relative;z-index:2;background:rgba(0,0,0,0.98)}
@@ -483,6 +492,13 @@
       mobileMenu.classList.toggle('open', willOpen);
       menuToggle.classList.toggle('is-open', willOpen);
       menuToggle.setAttribute('aria-expanded', String(willOpen));
+
+      // Добавляем или убираем блокировку скролла
+      if (willOpen) {
+        document.body.classList.add('lock-scroll');
+      } else {
+        document.body.classList.remove('lock-scroll');
+      }
     });
 
     function closeBriefModal() {
