@@ -122,23 +122,39 @@
     .mobile-nav a:hover { color:var(--text); }
     .mobile-nav .nav-cta { color:#1a0800 !important; font-size:14px; }
 
+
+    /* ═══ АДАПТИВ И БУРГЕР ════════════════════════════════════ */
+
+    /* Планшетная версия: от 860px и ниже */
+    @media (max-width:860px) {
+      nav { display:none; }
+      .menu-toggle { display:flex; }
+      .mobile-menu { display:flex; }
+    }
+
+    /* Мобильная оптимизация: от 600px и ниже */
     @media (max-width:600px) {
+      /* Убираем тяжелые эффекты, которые дают лаги при скролле */
       body::after { display: none !important; }
 
-      header.scrolled::before, .glass-card {
+      /* Отключаем блюр в меню, заменяем на плотный фон для скорости */
+      .mobile-menu {
         backdrop-filter: none !important;
-        background: rgba(10, 5, 0, 0.95) !important;
+        background: rgba(0, 0, 0, 0.98) !important;
       }
 
-      /* Вместо удаления стекинга, мы просто уменьшаем отступы сверху, */
-      /* чтобы карточки не перекрывали друг друга слишком сильно на маленьком экране */
-      .portfolio-card {
-        margin-bottom: 24px !important;
-      }
-
+      /* Увеличиваем шрифт в формах, чтобы избежать авто-зума на iOS */
       .field input, .field select, .field textarea {
         font-size: 16px !important;
       }
+    }
+
+    /* Класс-замок для блокировки скролла (нужен для JS) */
+    .lock-scroll {
+      overflow: hidden !important;
+      height: 100vh !important;
+      position: fixed !important;
+      width: 100% !important;
     }
     /* ═══ OPENING SCREEN ════════════════════════════════════ */
     .opening-screen {
@@ -1173,10 +1189,17 @@ const menuToggle = document.getElementById('menuToggle');
 const mobileMenu = document.getElementById('mobileMenu');
 function toggleMenu(force) {
   const open = typeof force === 'boolean' ? force : !mobileMenu.classList.contains('is-open');
+
   mobileMenu.classList.toggle('is-open', open);
   menuToggle.classList.toggle('is-open', open);
   menuToggle.setAttribute('aria-expanded', String(open));
-  document.body.style.overflow = open ? 'hidden' : '';
+
+  // Добавляем или убираем замок на скролл
+  if (open) {
+    document.body.classList.add('lock-scroll');
+  } else {
+    document.body.classList.remove('lock-scroll');
+  }
 }
 menuToggle.addEventListener('click', () => toggleMenu());
 mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
