@@ -127,28 +127,6 @@
     .cta-wrap p{max-width:640px;margin:0 auto 20px;color:var(--muted)}
     .cta-btn{display:inline-block;padding:13px 26px;border-radius:999px;background:var(--accent);color:#000;font-weight:700;text-decoration:none;font-family:"Montserrat",sans-serif;transition:.2s}
     .cta-btn:hover{transform:translateY(-2px);box-shadow:0 0 22px var(--accent-glow)}
-
-    .modal-overlay{position:fixed;inset:0;z-index:240;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .25s ease}
-    .modal-overlay.open{opacity:1;pointer-events:auto}
-    .modal-card{width:min(100%,500px);max-height:calc(100vh - 40px);overflow:auto;border:1px solid rgba(255,255,255,.14);border-radius:16px;background:#060606;box-shadow:0 28px 60px rgba(0,0,0,.45);padding:28px 28px 24px}
-    .modal-close{margin-left:auto;display:grid;place-items:center;width:34px;height:34px;border:none;background:transparent;color:rgba(255,255,255,.62);font-size:34px;line-height:1;cursor:pointer}
-    .modal-title{font-size:28px;font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-top:20px;margin-bottom:10px}
-    .modal-field{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.16);color:var(--text);font-family:"Montserrat",sans-serif;font-size:18px;padding:36px 2px 14px;outline:none}
-    .modal-field::placeholder{color:rgba(255,255,255,.35)}
-    .modal-field:focus{border-bottom-color:rgba(var(--accent-rgb),.55)}
-    .modal-select{position:relative;border-bottom:1px solid rgba(255,255,255,.16)}
-    .modal-select-btn{width:100%;border:none;background:transparent;color:rgba(255,255,255,.35);font-family:"Montserrat",sans-serif;font-size:18px;line-height:1.2;text-align:left;padding:18px 2px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
-    .modal-select-btn.active{color:var(--text)}
-    .modal-select-btn::after{content:"⌄";font-size:24px;color:rgba(255,255,255,.55);margin-left:12px;transform:translateY(-2px)}
-    .modal-select.open .modal-select-btn::after{transform:rotate(180deg) translateY(2px)}
-    .modal-select-options{display:none;position:absolute;top:100%;width:100%;z-index:10;list-style:none;margin:8px 0 10px;padding:14px 16px;border:1px solid rgba(255,255,255,.16);background:#1a1a1a}
-    .modal-select.open .modal-select-options{display:block}
-    .modal-select-options button{width:100%;background:none;border:none;text-align:left;color:#fff;font-size:18px;font-family:"Montserrat",sans-serif;padding:10px 0;cursor:pointer}
-    .modal-select-options button:hover{color:var(--accent)}
-    textarea.modal-field{min-height:140px;resize:vertical;padding-top:22px}
-    .modal-submit{margin-top:32px;width:100%;border:none;background:var(--accent);color:#000;font-family:"Montserrat",sans-serif;font-size:16px;font-weight:600;line-height:1.1;border-radius:0;padding:16px 12px;cursor:pointer;transition:.2s;max-width:420px}
-    .modal-submit:hover{filter:brightness(.96)}
-    .modal-submit-wrap{display:flex;justify-content:center}
     .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
     .reveal.visible{opacity:1;transform:translateY(0)}
 
@@ -178,12 +156,6 @@
       .roadmap-marker{grid-column:1;justify-self:center;width:24px;height:24px;box-shadow:0 0 0 5px rgba(var(--accent-rgb),.08);margin-top:4px}
     }
     @media (max-width:640px){
-      .modal-card{padding:24px 18px 20px}
-      .modal-title{font-size:32px}
-      .modal-field{font-size:26px}
-      .modal-select-btn{font-size:26px}
-      .modal-select-options button{font-size:22px}
-      .modal-submit{font-size:15px;padding:14px 10px}
     }
 
     .site-footer{border-top:1px solid rgba(255,255,255,0.18);padding:64px 0 36px;position:relative;z-index:2;background:rgba(0,0,0,0.98)}
@@ -363,31 +335,6 @@
       <a href="#" class="cta-btn" id="openBriefBtn">Запросить архитектуру PBMS</a>
     </div>
   </article>
-      <div class="modal-select" data-select="team_size">
-        <button class="modal-select-btn" type="button">Размер команды</button>
-        <ul class="modal-select-options">
-          <li><button type="button" data-value="1-10">1-10</button></li>
-          <li><button type="button" data-value="11-50">11-50</button></li>
-          <li><button type="button" data-value="51-200">51-200</button></li>
-          <li><button type="button" data-value="200+">200+</button></li>
-        </ul>
-        <input type="hidden" name="team_size"/>
-      </div>
-      <div class="modal-select" data-select="budget">
-        <button class="modal-select-btn" type="button">Бюджет</button>
-        <ul class="modal-select-options">
-          <li><button type="button" data-value="До 300 000 ₽">До 300 000 ₽</button></li>
-          <li><button type="button" data-value="300 000 - 1 000 000 ₽">300 000 - 1 000 000 ₽</button></li>
-          <li><button type="button" data-value="1 000 000 - 3 000 000 ₽">1 000 000 - 3 000 000 ₽</button></li>
-          <li><button type="button" data-value="Более 3 000 000 ₽">Более 3 000 000 ₽</button></li>
-        </ul>
-        <input type="hidden" name="budget"/>
-      </div>
-      <textarea class="modal-field" name="task" placeholder="Опишите вашу задачу"></textarea>
-      <input class="modal-field" type="text" name="contact" placeholder="Ваш контакт (@telegram_id / +7 (999) 123-45-67)"/>
-      <div class="modal-submit-wrap"><button class="modal-submit" type="submit">Отправить заявку</button></div>
-    </form>
-  </div>
 
 <footer class="site-footer">
   <div class="footer-inner">
