@@ -151,24 +151,24 @@ window.siteContent = {
   setHtml(document.querySelector(".opening-title"), content.opening.titleHtml);
   setText(document.querySelector(".opening-lead"), content.opening.lead);
   setTextList(Array.from(document.querySelectorAll(".opening-actions a")), content.opening.actions);
-  Array.from(document.querySelectorAll(".hero-stats .hero-stat")).forEach((card, index) => {
-    const item = content.opening.stats[index];
-    if (!item) return;
-    setText(card.querySelector(".stat-label"), item.label);
-    setText(card.querySelector(".stat-value"), item.value);
-  });
-
-  setTextList(Array.from(document.querySelectorAll(".hero-panel .hero-copy")), content.heroPanels);
-
-  setText(document.querySelector(".intro-text h2"), content.intro.title);
-  setText(document.querySelector(".intro-text p"), content.intro.text);
-  Array.from(document.querySelectorAll(".promise-card")).forEach((card, index) => {
-    const item = content.intro.cards[index];
-    if (!item) return;
-    setText(card.querySelector("h3"), item.title);
-    setText(card.querySelector("p"), item.text);
-  });
-  setText(document.querySelector(".shared-wrap .section-action .btn"), content.intro.action);
+//  Array.from(document.querySelectorAll(".hero-stats .hero-stat")).forEach((card, index) => {
+//    const item = content.opening.stats[index];
+//    if (!item) return;
+//    setText(card.querySelector(".stat-label"), item.label);
+//    setText(card.querySelector(".stat-value"), item.value);
+//  });
+//
+//  setTextList(Array.from(document.querySelectorAll(".hero-panel .hero-copy")), content.heroPanels);
+//
+//  setText(document.querySelector(".intro-text h2"), content.intro.title);
+//  setText(document.querySelector(".intro-text p"), content.intro.text);
+//  Array.from(document.querySelectorAll(".promise-card")).forEach((card, index) => {
+//    const item = content.intro.cards[index];
+//    if (!item) return;
+//    setText(card.querySelector("h3"), item.title);
+//    setText(card.querySelector("p"), item.text);
+//  });
+//  setText(document.querySelector(".shared-wrap .section-action .btn"), content.intro.action);
 
   setText(document.querySelector("#services .section-heading .eyebrow"), content.services.eyebrow);
   setText(document.querySelector("#services .section-heading h2"), content.services.title);
