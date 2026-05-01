@@ -787,7 +787,6 @@
   <nav>
     <a href="#portfolio">Кейсы</a>
     <a href="#services">Услуги</a>
-    <a href="#process">Процесс</a>
     <a href="#contact" class="nav-cta" data-open-form>Обсудить задачу</a>
   </nav>
   <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-label="Открыть меню">
@@ -799,7 +798,7 @@
   <nav class="mobile-nav">
     <a href="#portfolio">Кейсы</a>
     <a href="#services">Услуги</a>
-    <a href="#process">Процесс</a>
+
     <a class="btn btn-accent nav-cta" href="#contact" data-open-form>Обсудить задачу</a>
   </nav>
 </div>
@@ -845,20 +844,7 @@
       <a class="btn btn-accent" href="#contact" data-open-form>Запросить разбор</a>
       <a class="btn btn-ghost" href="#portfolio">Посмотреть кейсы</a>
     </div>
-    <div class="hero-stats fade-up">
-      <article class="hero-stat">
-        <span class="stat-label">Фокус</span>
-        <span class="stat-value">AI + внутренние системы</span>
-      </article>
-      <article class="hero-stat">
-        <span class="stat-label">Подход</span>
-        <span class="stat-value">От аудита к внедрению</span>
-      </article>
-      <article class="hero-stat">
-        <span class="stat-label">Результат</span>
-        <span class="stat-value">Меньше ручной работы</span>
-      </article>
-    </div>
+    
   </div>
 </section>
 
@@ -866,74 +852,28 @@
 <div class="panels-section" id="hero">
   <div class="panels-sticky">
     <article class="hero-panel" id="hp0">
-      <p class="hero-copy">Вы построили бизнес. Затем начали масштабироваться и нанимать сотрудников.</p>
+      <p class="hero-copy">Раньше за любую задачу Вам приходилось платить</p>
     </article>
     <article class="hero-panel" id="hp1">
-      <p class="hero-copy">Поиск, собеседования, адаптация. Каждый новый сотрудник — это время и деньги, а увольнение всегда сложный и затратный процесс.</p>
+      <p class="hero-copy">Но рынок поменялся. Современный ИИ уже закрывает рутинные задачи</p>
     </article>
     <article class="hero-panel" id="hp2">
-      <p class="hero-copy">Рост упирается в команду. Проще усилить текущих людей, чем постоянно расширять штат.</p>
+      <p class="hero-copy">И делает это за копейки</p>
     </article>
   </div>
 </div>
 
-<!-- ═══ SHARED SECTIONS WRAPPER ══════════════════════════════ -->
-<div class="shared-wrap" id="shared-wrap">
-  <canvas class="dot-grid-canvas" id="sharedDotGrid"></canvas>
-
-  <!-- INTRO -->
-  <section class="intro" id="team">
-    <canvas id="introCanvas"></canvas>
-    <div class="intro-grid" aria-hidden="true"></div>
-    <div class="mesh mesh-a" aria-hidden="true"></div>
-    <div class="mesh-center" aria-hidden="true"></div>
-    <div class="mesh mesh-b" aria-hidden="true"></div>
-    <div class="mesh-horizon" aria-hidden="true"></div>
-
-    <div class="section-inner intro-center">
-      <div class="intro-text">
-        <h2 class="reveal">Наша команда создаёт такие системы. Те же люди. Другой потолок.</h2>
-        <p class="reveal" style="margin-top:22px;font-size:18px;line-height:1.72;color:var(--muted-strong);">
-          Системы позволяют вашей команде работать эффективнее, и бизнес получает возможность расти без новых позиций в штате.
-        </p>
-      </div>
-    </div>
-
-    <div class="section-inner promise-grid">
-      <article class="glass-card promise-card reveal">
-        <span class="case-number">01</span>
-        <h3>Минимум лишних данных</h3>
-        <p>Собираем в форме только то, что нужно для обратной связи и первичной квалификации запроса.</p>
-      </article>
-      <article class="glass-card promise-card reveal">
-        <span class="case-number">02</span>
-        <h3>Решения под задачу</h3>
-        <p>AI, CRM, сайт, Telegram-бот или внутренняя панель — выбираем не тренд, а рабочий инструмент.</p>
-      </article>
-      <article class="glass-card promise-card reveal">
-        <span class="case-number">03</span>
-        <h3>Прозрачный контур</h3>
-        <p>Документы, обработка запросов и интерфейс формы собраны так, чтобы сайт было легче довести до production.</p>
-      </article>
-    </div>
-
-    <div class="section-action section-inner reveal" style="margin-top:44px;">
-      <a class="btn btn-accent" href="#contact" data-open-form>Обсудить задачу</a>
-    </div>
-  </section>
 
 
-</div><!-- /shared-wrap -->
 
 <!-- ═══ PORTFOLIO STACKING ════════════════════════════════════ -->
 <section class="portfolio-section" id="portfolio">
   <div class="section-inner">
     <div class="section-heading">
       <p class="eyebrow reveal">Кейсы</p>
-      <h2 class="reveal">Реализованные решения</h2>
+      <h2 class="reveal">Примеры автоматизаций</h2>
       <p class="section-text reveal">
-        Реальные направления и продукты: от AI-разбора звонков до внутренних платформ,
-        маркетплейсов и multi-agent систем.
+        Наши собственные решения и продукты: от корпоративных платформ до полноценных ИИ-Сотрудников
       </p>
     </div>
     <div class="portfolio-stack" id="portfolioStack">
@@ -942,22 +882,51 @@
           <span class="case-number">01</span>
           <span class="portfolio-card__tag">AI / Call Center</span>
         </div>
-        <h3>AI-микросервис для автоматического разбора заказов из телефонных звонков</h3>
-        <p>Система для call-центра, которая превращает звонки в структурированные заказы, снижает долю ручного ввода и ускоряет обработку обращений.</p>
+        <h3>Авторазбор телефонных звонков</h3>
+        <p>AI-Микросервис для Колл-центрадля колл-центра: обработка звонков и контроль операторов</p>
         <ul class="portfolio-card__list">
-          <li>извлечение данных из разговоров</li>
-          <li>подготовка заказов к дальнейшей обработке</li>
-          <li>снижение нагрузки на операторский контур</li>
+          <li>обработка звонка: 2 минуты → 30 секунд </li>
+          <li>-83% ошибок при заполнении CRM</li>
+          <li>2 сотрудника уволены после проверки качества</li>
         </ul>
         <a class="portfolio-card__link" href="call-center-case.html">Открыть кейс</a>
       </article>
 
       <article class="portfolio-card glass-card">
         <div class="portfolio-card__meta">
-          <span class="case-number">02</span>
+          <span class="case-number">03</span>
+          <span class="portfolio-card__tag">AI Assistant / Design Specs</span>
+        </div>
+        <h3>AI-составитель ТЗ</h3>
+        <p>ИИ-помощник, который превращает абстрактные идеи в понятное ТЗ и снимает проблему "чистого листа"</p>
+        <ul class="portfolio-card__list">
+          <li>подготовка спецификаций: 2 дня → 2 часа</li>
+          <li>единый стандарт оформления ТЗ</li>
+        </ul>
+        <a class="portfolio-card__link" href="tz-generator-case.html">Открыть кейс</a>
+      </article>
+
+      <article class="portfolio-card glass-card">
+        <div class="portfolio-card__meta">
+          <span class="case-number">04</span>
+          <span class="portfolio-card__tag">Multi-Agent / Telegram</span>
+        </div>
+        <h3>Контент-завод SMM</h3>
+        <p>Связка из ИИ-Агентов, создающая посты для социальных сетей с упором на аудиторию</p>
+        <ul class="portfolio-card__list">
+          <li>создание поста: 40 минут → 2 минуты</li>
+          <li>единый стиль контента</li>
+          <li>x1.3 рост вовлеченности</li>
+        </ul>
+        <a class="portfolio-card__link" href="smm-case.html">Открыть кейс</a>
+      </article>
+
+      <article class="portfolio-card glass-card">
+        <div class="portfolio-card__meta">
+          <span class="case-number">05</span>
           <span class="portfolio-card__tag">Ops / Corporate System</span>
         </div>
-        <h3>Корпоративная система управления проектами и резервным копированием PBMS</h3>
+        <h3>Корпоративная система для ИТ-отдела</h3>
         <p>Внутренний контур для контроля проектов, ролевого доступа и надёжного резервирования, собранный как единая операционная среда.</p>
         <ul class="portfolio-card__list">
           <li>единая панель управления</li>
@@ -972,7 +941,7 @@
           <span class="case-number">03</span>
           <span class="portfolio-card__tag">LLM / Prompt Engineering</span>
         </div>
-        <h3>Среда для пакетного тестирования и отладки промптов локальных LLM</h3>
+        <h3>Платформа для работы с локальным ИИ</h3>
         <p>Инженерная среда для системной проверки prompt-сценариев, сравнительного тестирования и более предсказуемой работы локальных моделей.</p>
         <ul class="portfolio-card__list">
           <li>батч-тестирование промптов</li>
@@ -982,35 +951,7 @@
         <a class="portfolio-card__link" href="promptlab-case.html">Открыть кейс</a>
       </article>
 
-      <article class="portfolio-card glass-card">
-        <div class="portfolio-card__meta">
-          <span class="case-number">04</span>
-          <span class="portfolio-card__tag">Multi-Agent / Telegram</span>
-        </div>
-        <h3>Multi-agent система для автоматизации SMM в Telegram</h3>
-        <p>Комплекс для подготовки постов, orchestration-сценариев и ускорения контентного production в Telegram-каналах.</p>
-        <ul class="portfolio-card__list">
-          <li>автоматизация SMM-пайплайна</li>
-          <li>генерация и сборка постов</li>
-          <li>мультиагентный подход к контенту</li>
-        </ul>
-        <a class="portfolio-card__link" href="smm-case.html">Открыть кейс</a>
-      </article>
 
-      <article class="portfolio-card glass-card">
-        <div class="portfolio-card__meta">
-          <span class="case-number">05</span>
-          <span class="portfolio-card__tag">AI Assistant / Design Specs</span>
-        </div>
-        <h3>AI-ассистент для автоматической генерации дизайн-спецификаций</h3>
-        <p>Помощник, который ускоряет проектирование интерфейсов и переводит замысел в структурированные спецификации для дальнейшей разработки.</p>
-        <ul class="portfolio-card__list">
-          <li>ускорение подготовки спецификаций</li>
-          <li>связка дизайна и разработки</li>
-          <li>снижение ручной рутины в продуктовой команде</li>
-        </ul>
-        <a class="portfolio-card__link" href="tz-generator-case.html">Открыть кейс</a>
-      </article>
 
     </div>
     <div class="section-action" style="padding-bottom:100px;">
@@ -1021,36 +962,37 @@
 
 <!-- ═══ SERVICES ══════════════════════════════════════════════ -->
 <section class="services-section section-pad" id="services"
-  style="background:linear-gradient(180deg,rgba(28,13,0,0.7) 0%,rgba(10,5,0,0.85) 60%,rgba(0,0,0,0.9) 100%)">
-  <canvas class="dot-grid-canvas" id="servicesDotGrid" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:0.5;"></canvas>
-  <div class="section-inner" style="position:relative;z-index:2;">
-    <div class="section-heading">
-      <p class="eyebrow reveal">Что делаем</p>
-      <h2 class="reveal">Строим не разрозненные инструменты, а управляемый цифровой слой бизнеса</h2>
-      <p class="section-text reveal">Иногда задача решается AI, иногда — интерфейсом, ботом, регламентом или новой логикой процесса.</p>
-    </div>
-    <div class="services-grid">
-      <article class="glass-card service-card">
-        <h3>AI и автоматизация</h3>
-        <ul class="service-list">
-          <li>AI-ассистенты для команд и отделов</li>
-          <li>автоматизация обработки заявок и документов</li>
-          <li>разбор диалогов, брифов и входящих обращений</li>
-          <li>контентные и аналитические AI-сценарии</li>
-        </ul>
-      </article>
-      <article class="glass-card service-card">
-        <h3>Системы и интерфейсы</h3>
-        <ul class="service-list">
-          <li>сайты и landing pages с сильной подачей</li>
-          <li>внутренние кабинеты, CRM и панели</li>
-          <li>Telegram-боты и операционные интеграции</li>
-          <li>архитектура данных, ролей и сценариев доступа</li>
-        </ul>
-      </article>
-    </div>
+style="background:linear-gradient(180deg,rgba(28,13,0,0.7) 0%,rgba(10,5,0,0.85) 60%,rgba(0,0,0,0.9) 100%)">
+<canvas class="dot-grid-canvas" id="servicesDotGrid" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:0.5;"></canvas>
+<div class="section-inner" style="position:relative;z-index:2;">
+  <div class="section-heading">
+    <p class="eyebrow reveal">Что делаем</p>
+    <h2 class="reveal">Строим не разрозненные инструменты, а управляемый цифровой слой бизнеса</h2>
+    <p class="section-text reveal">Иногда задача решается AI, иногда — интерфейсом, ботом, регламентом или новой логикой процесса.</p>
   </div>
+  <div class="services-grid">
+    <article class="glass-card service-card">
+      <h3>AI и автоматизация</h3>
+      <ul class="service-list">
+        <li>AI-ассистенты для команд и отделов</li>
+        <li>автоматизация обработки заявок и документов</li>
+        <li>разбор диалогов, брифов и входящих обращений</li>
+        <li>контентные и аналитические AI-сценарии</li>
+      </ul>
+    </article>
+    <article class="glass-card service-card">
+      <h3>Системы и интерфейсы</h3>
+      <ul class="service-list">
+        <li>сайты и landing pages с сильной подачей</li>
+        <li>внутренние кабинеты, CRM и панели</li>
+        <li>Telegram-боты и операционные интеграции</li>
+        <li>архитектура данных, ролей и сценариев доступа</li>
+      </ul>
+    </article>
+  </div>
+</div>
 </section>
+
 
 <!-- ═══ PROCESS ════════════════════════════════════════════════ -->
 <section class="process-section" id="process"
