@@ -35,7 +35,7 @@
     .cf-consent input{margin-top:2px;accent-color:var(--accent);flex-shrink:0}
     .cf-consent span{font-size:13px;color:rgba(107,114,128,1);line-height:1.55}
     .cf-consent a{color:var(--accent);text-decoration:none}
-
+    
     .cf-trap{display:none !important}
     .cf-footer{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:4px}
     .cf-status{font-size:13px;font-family:"Montserrat",sans-serif}
