@@ -200,11 +200,11 @@ window.siteContent = {
   setText(document.querySelector(".footer-copy"), content.footer.copy);
   setTextList(Array.from(document.querySelectorAll(".footer-legal a")), content.footer.legal);
 
-  setText(document.querySelector(".contact-side .eyebrow"), content.modal.eyebrow);
-  setText(document.querySelector(".contact-side h2"), content.modal.title);
-  setText(document.querySelector(".contact-side .section-text"), content.modal.text);
-  setText(document.querySelector(".contact-scope h3"), content.modal.scopeTitle);
-  setTextList(Array.from(document.querySelectorAll(".contact-scope li")), content.modal.scopeItems);
+  setText(document.querySelector(".cf-side .cf-eyebrow"), content.modal.eyebrow);
+  setText(document.querySelector(".cf-side h2"), content.modal.title);
+  setText(document.querySelector(".cf-side .cf-side-text"), content.modal.text);
+  setText(document.querySelector(".cf-scope-card h3"), content.modal.scopeTitle);
+  setTextList(Array.from(document.querySelectorAll(".cf-scope-list li")), content.modal.scopeItems);
 
   const form = document.getElementById("contactForm");
   if (form) {
