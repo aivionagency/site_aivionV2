@@ -168,7 +168,6 @@ window.siteContent = {
 //    setText(card.querySelector("p"), item.text);
 //  });
 //  setText(document.querySelector(".shared-wrap .section-action .btn"), content.intro.action);
-
   setText(document.querySelector("#services .section-heading .eyebrow"), content.services.eyebrow);
   setText(document.querySelector("#services .section-heading h2"), content.services.title);
   setText(document.querySelector("#services .section-heading .section-text"), content.services.text);
